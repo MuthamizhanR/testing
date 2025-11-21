@@ -2,7 +2,7 @@
   "meta": {
     "id": "test57",
     "title": "Mid Day Module (OBG-4) - 2025-03-05",
-    "category": "General / Mixed"
+    "category": "Subject Wise / Mixed"
   },
   "questions": [
     {
@@ -1027,7 +1027,7 @@
       "correct_answer": "C. 1 pm",
       "question_images": [],
       "explanation_images": [],
-      "explanation": "<p><strong>Ans. C. 1 pm</strong></p>\n<p><strong>Educational Objective:</strong></p><ul><li>\u27a4 Educational Objective:</li><li>\u27a4 As per the WHO modified partograph, cervical dilatation should happen @1cm/h</li><li>\u27a4 Ref: Page no 213 JB Sharma\u2019s Textbook of Obstetrics 3 rd edition</li><li>\u27a4 Ref: Page no 213 JB Sharma\u2019s Textbook of Obstetrics 3 rd edition</li></ul>\n<p></p>",
+      "explanation": "<p><strong>Ans. C. 1 pm</strong></p>\n<p><strong>Educational Objective:</strong></p><ul><li>\u27a4 Educational Objective:</li><li>\u27a4 As per the WHO modified partograph, cervical dilatation should happen /h</li><li>\u27a4 Ref: Page no 213 JB Sharma\u2019s Textbook of Obstetrics 3 rd edition</li><li>\u27a4 Ref: Page no 213 JB Sharma\u2019s Textbook of Obstetrics 3 rd edition</li></ul>\n<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
       "uid": "7415a0e8",

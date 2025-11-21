@@ -1618,7 +1618,7 @@
       "audio": ""
     },
     {
-      "text": "-1D sph and -2D@180 is what type of refractive error?",
+      "text": "-1D sph and -2D is what type of refractive error?",
       "options": [
         {
           "label": "A",
@@ -1647,7 +1647,7 @@
       "explanation": "<p><strong>Ans. A)</strong></p>\n<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
-      "uid": "31de37d2",
+      "uid": "37aeb397",
       "audio": ""
     },
     {

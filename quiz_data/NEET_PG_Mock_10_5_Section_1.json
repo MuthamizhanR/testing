@@ -3854,7 +3854,7 @@
       "audio": ""
     },
     {
-      "text": "A child came to OPD and was prescribed-2D sphere with -1D cylinder @180. What is the refractive error of that eye of the patient?",
+      "text": "A child came to OPD and was prescribed-2D sphere with -1D cylinder . What is the refractive error of that eye of the patient?",
       "options": [
         {
           "label": "A",
@@ -3883,7 +3883,7 @@
       "explanation": "<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
-      "uid": "03d15feb",
+      "uid": "be74bb67",
       "audio": ""
     },
     {

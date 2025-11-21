@@ -767,7 +767,7 @@
       "uid": "fc873e40"
     },
     {
-      "text": "You are posted as a medical officer in a PHC and a mother comes to you with complaints that her 2-month-old baby is lethargic and is not feeding properly for the past few hours. You measure the blood glucose levels which come out to be 32 mg/dl and the baby is given 10% Dextrose bolus @2mg/kg. Which physiological impact can glucose infusion have on electrolytes?",
+      "text": "You are posted as a medical officer in a PHC and a mother comes to you with complaints that her 2-month-old baby is lethargic and is not feeding properly for the past few hours. You measure the blood glucose levels which come out to be 32 mg/dl and the baby is given 10% Dextrose bolus /kg. Which physiological impact can glucose infusion have on electrolytes?",
       "options": [
         {
           "label": "A",
@@ -797,7 +797,7 @@
       "bot": "@dams_new_robot",
       "audio": "",
       "video": "",
-      "uid": "d8708bb4"
+      "uid": "3c63f55f"
     },
     {
       "text": "A 6-year-old boy presents with coarse facial features, hepatosplenomegaly, joint stiffness, aggressive behavior, and poor language skills; however, his vision is clear. Increased urinary excretion of dermatan sulfate and heparan sulfate is noted. What is the most likely diagnosis among the following diseases?",

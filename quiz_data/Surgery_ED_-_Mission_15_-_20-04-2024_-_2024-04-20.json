@@ -2,7 +2,7 @@
   "meta": {
     "id": "test2",
     "title": "Surgery E&D - Mission 1.5 - 20-04-2024 - 2024-04-20",
-    "category": "General / Mixed"
+    "category": "Subject Wise / Mixed"
   },
   "questions": [
     {
@@ -1004,7 +1004,7 @@
         "https://cerebellum-web-static.s3.amazonaws.com/media/public/images/2024/04/19/screenshot-2024-04-19-155633.JPG"
       ],
       "explanation_images": [],
-      "explanation": "<p><strong>Ans. B) CO2 @3L/min</strong></p>\n<p><strong>Educational Objective:</strong></p><ul><li>\u27a4 Educational Objective:</li><li>\u27a4 In laparoscopy, a Veress needle is used to establish pneumoperitoneum with CO2, typically at a maximum flow rate of 3L/min to maintain safety.</li></ul>\n<p></p>",
+      "explanation": "<p><strong>Ans. B) CO2 /min</strong></p>\n<p><strong>Educational Objective:</strong></p><ul><li>\u27a4 Educational Objective:</li><li>\u27a4 In laparoscopy, a Veress needle is used to establish pneumoperitoneum with CO2, typically at a maximum flow rate of 3L/min to maintain safety.</li></ul>\n<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
       "uid": "f8e354d5",

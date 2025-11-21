@@ -2,7 +2,7 @@
   "meta": {
     "id": "test30",
     "title": "Obstetrics__Gynecology_Dr_Anil-2026",
-    "category": "General / Mixed"
+    "category": "Subject Wise / Mixed"
   },
   "questions": [
     {
@@ -4161,7 +4161,7 @@
       "audio": ""
     },
     {
-      "text": "G2P1L1 with 16 weeks of gestation has history of preterm birth in last pregnancy @28 weeks. In this pregnancy it was found that she has cervical length of 2 cm in USG. What should be the plan of action?",
+      "text": "G2P1L1 with 16 weeks of gestation has history of preterm birth in last pregnancy  weeks. In this pregnancy it was found that she has cervical length of 2 cm in USG. What should be the plan of action?",
       "options": [
         {
           "label": "A",
@@ -4190,7 +4190,7 @@
       "explanation": "<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
-      "uid": "694c8e7d",
+      "uid": "c82fa98b",
       "audio": ""
     },
     {

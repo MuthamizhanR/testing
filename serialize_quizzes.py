@@ -17,14 +17,13 @@ if not os.path.exists(OUTPUT_DIR):
 def clean_text_content(text):
     """Removes unwanted signatures and cleans HTML."""
     if not text: return ""
-    # Remove specific telegram handle
+    # Remove specific telegram handle and common variations
     text = text.replace("@dams_new_robot", "")
-    # Remove generic telegram links if any
-    text = re.sub(r't\.me\/\w+', '', text)
+    text = re.sub(r'@\w+', '', text) # Remove any @mentions
+    text = re.sub(r't\.me\/\w+', '', text) # Remove links
     return text.strip()
 
 def categorize_test(title):
-    """Sorts tests into brands/categories based on keywords."""
     t = title.lower()
     if "cereb" in t or "btr" in t: return "Cerebellum / BTR"
     if "prep" in t or "rr" in t or "rapid" in t: return "Prepladder / RR"
@@ -32,7 +31,7 @@ def categorize_test(title):
     if "aiims" in t: return "AIIMS PYQ"
     if "inicet" in t: return "INICET PYQ"
     if "neet" in t: return "NEET PG PYQ"
-    return "General / Mixed"
+    return "Subject Wise / Mixed"
 
 def generate_question_id(text):
     hash_object = hashlib.md5(text.strip().encode('utf-8'))
@@ -89,12 +88,12 @@ def extract_from_file(filepath):
                         if 'video' not in q: q['video'] = ""
                         if 'audio' not in q: q['audio'] = ""
                         if 'question_images' not in q: q['question_images'] = []
+                        if 'explanation_images' not in q: q['explanation_images'] = []
                     
                     safe_title = clean_filename(title)
                     category = categorize_test(title)
                     out_filename = f"{safe_title}.json"
                     
-                    # Unique filename check
                     counter = 1
                     while os.path.exists(os.path.join(OUTPUT_DIR, out_filename)):
                          out_filename = f"{safe_title}_{counter}.json"
@@ -145,7 +144,6 @@ def main():
         json.dump(all_quizzes, f, indent=2)
 
     print(f"\nDONE! Processed {len(all_quizzes)} tests.")
-    print(f"Categories assigned. Telegram IDs removed.")
 
 if __name__ == "__main__":
     main()

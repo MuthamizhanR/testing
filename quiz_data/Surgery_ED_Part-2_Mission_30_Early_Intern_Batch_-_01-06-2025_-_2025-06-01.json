@@ -2,7 +2,7 @@
   "meta": {
     "id": "test11",
     "title": "Surgery E&D Part-2, Mission 3.0 (Early_Intern Batch) - 01-06-2025 - 2025-06-01",
-    "category": "General / Mixed"
+    "category": "Subject Wise / Mixed"
   },
   "questions": [
     {
@@ -1677,7 +1677,7 @@
         "https://cerebellum-web-static.s3.amazonaws.com/media/public/image_JsRf2Z6.png"
       ],
       "explanation_images": [],
-      "explanation": "<p><strong>Ans. B) CO2 @3L/min</strong></p>\n<p></p>",
+      "explanation": "<p><strong>Ans. B) CO2 /min</strong></p>\n<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
       "uid": "f8e354d5",

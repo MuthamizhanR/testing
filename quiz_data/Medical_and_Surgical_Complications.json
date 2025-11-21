@@ -2,7 +2,7 @@
   "meta": {
     "id": "test20",
     "title": "Medical and Surgical Complications",
-    "category": "General / Mixed"
+    "category": "Subject Wise / Mixed"
   },
   "questions": [
     {
@@ -3345,7 +3345,7 @@
       "correct_answer": "B. IV Fluids @100ml/ h to maintain hydration",
       "question_images": [],
       "explanation_images": [],
-      "explanation": "<p><strong>Ans. B.\u00a0 IV fluids @100ml/hr to maintain hydration</strong></p>\n<p></p>",
+      "explanation": "<p><strong>Ans. B.\u00a0 IV fluids /hr to maintain hydration</strong></p>\n<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
       "uid": "3632f57d",

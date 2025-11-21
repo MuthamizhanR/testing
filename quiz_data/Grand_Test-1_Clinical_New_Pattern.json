@@ -2,7 +2,7 @@
   "meta": {
     "id": "test11",
     "title": "Grand_Test-1_Clinical_New_Pattern",
-    "category": "General / Mixed"
+    "category": "Subject Wise / Mixed"
   },
   "questions": [
     {
@@ -3415,7 +3415,7 @@
       "audio": ""
     },
     {
-      "text": "A 24 year old, primigravida with 30 weeks of gestation has blood pressure of 160/110 MM HG found for the first time in ANC visits. Her 24 hour urine albumin level is 220 MG. She has family history of hypertension in father and mother. Her blood pressure @12weeks was 130/80 MM HG. Her investigations are within normal limits. She has developed blurring of vision since one day. What is your diagnosis?",
+      "text": "A 24 year old, primigravida with 30 weeks of gestation has blood pressure of 160/110 MM HG found for the first time in ANC visits. Her 24 hour urine albumin level is 220 MG. She has family history of hypertension in father and mother. Her blood pressure  was 130/80 MM HG. Her investigations are within normal limits. She has developed blurring of vision since one day. What is your diagnosis?",
       "options": [
         {
           "label": "A",
@@ -3444,7 +3444,7 @@
       "explanation": "<p></p>",
       "bot": "@dams_new_robot",
       "video": "",
-      "uid": "ccdcdb8a",
+      "uid": "21f1f5ff",
       "audio": ""
     },
     {

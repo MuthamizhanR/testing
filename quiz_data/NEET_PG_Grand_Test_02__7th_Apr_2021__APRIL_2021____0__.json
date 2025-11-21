@@ -5109,7 +5109,7 @@
       "correct_answer": "B. 3 years",
       "question_images": [],
       "explanation_images": [],
-      "explanation": "<table border=\"1\">\n<tbody>\n<tr>\n<td>Undressing with support @2 years and <span class=\"customMeta\" data-dictid=\"5d07a26d7516927771863e5f43d8d0\">dressing</span> with support @ 3 years</td>\n<td></td>\n</tr>\n<tr>\n<td>Dressing and undressing independently (except closing buttons )</td>\n<td>3 years</td>\n</tr>\n<tr>\n<td>Dressing and undressing independently ( including closing button )</td>\n<td>4-5 years</td>\n</tr>\n</tbody>\n\n\n<p style='font-size: 10px; color: #808080; font-style: italic;'></p>",
+      "explanation": "<table border=\"1\">\n<tbody>\n<tr>\n<td>Undressing with support  years and <span class=\"customMeta\" data-dictid=\"5d07a26d7516927771863e5f43d8d0\">dressing</span> with support @ 3 years</td>\n<td></td>\n</tr>\n<tr>\n<td>Dressing and undressing independently (except closing buttons )</td>\n<td>3 years</td>\n</tr>\n<tr>\n<td>Dressing and undressing independently ( including closing button )</td>\n<td>4-5 years</td>\n</tr>\n</tbody>\n\n\n<p style='font-size: 10px; color: #808080; font-style: italic;'></p>",
       "bot": "@dams_new_robot",
       "audio": "",
       "video": "",
