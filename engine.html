@@ -152,9 +152,8 @@
 
 <script>
     // --- CONFIGURATION ---
-    const API_KEYS = ["YOUR_API_KEY_HERE"]; // Replace with your Key
+    const API_KEYS = ["AIzaSyAOuk5NbH0O1MFAQypnD8Ia9MNfFo6aVDc"]; 
 
-    // NEET PG Weightage Plan (Total 200)
     const MOCK_PLAN = {
         "Surgery": 21, "Medicine": 20, "Pharmacology": 17, "Microbiology": 16, 
         "Pathology": 15, "OBGYN": 15, "Community Medicine": 13, "Biochemistry": 11, 
@@ -171,22 +170,18 @@
     let isMockMode = false;
     let isReviewMode = false;
     let timerInterval;
-    let timeRemaining = 10800; // 3 hours
+    let timeRemaining = 10800;
 
-    // --- INIT ---
     document.addEventListener('DOMContentLoaded', () => {
         if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
         
-        // DETERMINE MODE (Mock vs List)
+        // Handle Mode Switching
         const params = new URLSearchParams(window.location.search);
         const mode = params.get('mode');
-
         if (mode === 'list') {
-            // Show List, Hide Mock
             document.getElementById('sec-list').style.display = 'block';
             document.getElementById('sec-mock').style.display = 'none';
         } else {
-            // Default: Show Mock, Hide List
             document.getElementById('sec-mock').style.display = 'block';
             document.getElementById('sec-list').style.display = 'none';
         }
@@ -194,17 +189,26 @@
         loadManifest();
     });
 
-    // --- DATA LOADING ---
+    // --- HELPER: SAFE URL BUILDER ---
+    function getSafeUrl(filename) {
+        // 1. Remove 'quiz_data/' if it's already in the manifest entry
+        let cleanName = filename.replace(/^quiz_data\//, '');
+        // 2. Handle spaces and special characters (GitHub hates spaces in URLs)
+        return `quiz_data/${encodeURIComponent(cleanName)}`;
+    }
+
     async function loadManifest() {
         try {
             const res = await fetch('manifest.json');
+            if(!res.ok) throw new Error(`HTTP ${res.status}`);
             manifest = await res.json();
             renderIndex(manifest);
         } catch(e) {
-            document.getElementById('index-container').innerHTML = '<p style="color:red; text-align:center;">Error loading manifest.json</p>';
+            document.getElementById('index-container').innerHTML = `<p style="color:red; text-align:center;">Error loading manifest: ${e.message}</p>`;
         }
     }
 
+    // --- UPDATED: CATEGORIES COLLAPSED BY DEFAULT ---
     function renderIndex(list) {
         const container = document.getElementById('index-container');
         container.innerHTML = "";
@@ -216,16 +220,15 @@
             return acc;
         }, {});
 
-        Object.keys(groups).sort().forEach((cat, idx) => {
+        Object.keys(groups).sort().forEach((cat) => {
             const itemsHtml = groups[cat].map(t => `
-                <li class="test-item" onclick="openPracticeTest('${t.file}')">
+                <li class="test-item" onclick="openPracticeTest('${t.file.replace(/'/g, "\\'")}')">
                     <span>${t.title}</span>
                     <span style="font-size:0.8rem; color:var(--text-secondary);">${t.questions} Qs</span>
                 </li>
             `).join('');
 
-            // CHANGE IS HERE: We removed "${idx === 0 ? 'open' : ''}"
-            // Now it is just class="category-group" (Closed by default)
+            // Note: Removed 'open' class so it stays collapsed
             container.innerHTML += `
                 <div class="category-group">
                     <div class="group-header" onclick="this.parentElement.classList.toggle('open')">
@@ -236,7 +239,7 @@
             `;
         });
     }
-    
+
     function filterIndex() {
         const term = document.getElementById('search').value.toLowerCase();
         if(!term) { renderIndex(manifest); return; }
@@ -245,25 +248,31 @@
         document.querySelectorAll('.category-group').forEach(g => g.classList.add('open'));
     }
 
-    // --- PRACTICE MODE ---
+    // --- FIXED PRACTICE MODE ---
     async function openPracticeTest(filename) {
         showLoader(true, "Loading Test...");
         try {
             isMockMode = false;
             isReviewMode = false;
             userAnswers = {};
-            const res = await fetch(`quiz_data/${filename}`);
+            
+            const url = getSafeUrl(filename);
+            const res = await fetch(url);
+            
+            if(!res.ok) throw new Error(`File not found (${res.status}). URL: ${url}`);
+            
             const data = await res.json();
             questionBank = data.questions;
             startSession(data.title);
         } catch(e) {
-            alert("Error loading file");
+            alert(`Failed to load test.\nError: ${e.message}`);
+            console.error(e);
         } finally { showLoader(false); }
     }
 
-    // --- GRAND MOCK GENERATOR (FIXED: ENSURES 200 Qs) ---
+    // --- FIXED GRAND MOCK GENERATOR ---
     async function generateMockTest() {
-        showLoader(true, "Gathering 200 Questions...");
+        showLoader(true, "Generating 200 Questions...");
         isMockMode = true;
         isReviewMode = false;
         userAnswers = {};
@@ -271,13 +280,15 @@
         
         try {
             const fetchFile = async (f) => {
-                try { const r = await fetch(`quiz_data/${f}`); return await r.json(); } 
-                catch(e) { return null; }
+                try { 
+                    const r = await fetch(getSafeUrl(f)); 
+                    if(!r.ok) return null;
+                    return await r.json(); 
+                } catch(e) { return null; }
             };
 
-            // 1. TARGETED FETCHING (Based on Plan)
+            // 1. TARGETED FETCHING
             for(let [subj, count] of Object.entries(MOCK_PLAN)) {
-                // Match subject loosely (case insensitive)
                 const candidates = manifest.filter(m => 
                     (m.category && m.category.toLowerCase().includes(subj.toLowerCase())) || 
                     m.title.toLowerCase().includes(subj.toLowerCase())
@@ -285,7 +296,7 @@
 
                 if(candidates.length === 0) continue;
 
-                // INCREASED LOAD: Fetch up to 20 files per subject to ensure we have enough questions
+                // Take up to 20 files per subject to find enough questions
                 candidates.sort(() => 0.5 - Math.random());
                 const filesToFetch = candidates.slice(0, 20); 
 
@@ -297,23 +308,21 @@
                     if(data && data.questions) subjectQs.push(...data.questions);
                 });
 
-                // Deduplicate by UID just in case
+                // Deduplicate
                 subjectQs = subjectQs.filter((q, index, self) =>
                     index === self.findIndex((t) => (t.uid === q.uid))
                 );
 
-                // Shuffle and take exactly what we need
                 subjectQs.sort(() => 0.5 - Math.random());
                 finalQs.push(...subjectQs.slice(0, count));
             }
 
-            // 2. BACKFILL MECHANISM (The Fix)
-            // If we are short of 200 (e.g., only got 172), fill the rest from ANY random file
+            // 2. BACKFILL IF SHORT
             if(finalQs.length < 200) {
                 const needed = 200 - finalQs.length;
-                console.log(`Short by ${needed} Qs. Engaging Backfill...`);
+                console.log(`Short by ${needed} Qs. Backfilling...`);
                 
-                // Grab 50 random files from entire manifest
+                // Use entire manifest as pool
                 const spareFiles = manifest.sort(() => 0.5 - Math.random()).slice(0, 50);
                 const sparePromises = spareFiles.map(f => fetchFile(f.file));
                 const spareResults = await Promise.all(sparePromises);
@@ -321,27 +330,24 @@
                 let sparePool = [];
                 spareResults.forEach(d => { if(d && d.questions) sparePool.push(...d.questions); });
 
-                // Filter out questions we ALREADY have in finalQs
                 const existingIds = new Set(finalQs.map(q => q.uid));
                 const uniqueSpares = sparePool.filter(q => !existingIds.has(q.uid));
 
-                // Add the needed amount
                 finalQs.push(...uniqueSpares.slice(0, needed));
             }
 
-            // Final Shuffle
             questionBank = finalQs.sort(() => 0.5 - Math.random());
             
             if(questionBank.length === 0) {
-                alert("Critial Error: No questions could be loaded. Check database.");
+                alert("Critical Error: Could not load ANY questions. Please check if 'quiz_data' folder exists.");
                 return;
             }
 
             startSession("Grand Mock Exam");
 
         } catch(e) {
+            alert("Error generating mock: " + e.message);
             console.error(e);
-            alert("Error generating mock. Check console.");
         } finally { showLoader(false); }
     }
 
@@ -349,7 +355,8 @@
         curIdx = 0;
         document.getElementById('q-title').textContent = title;
         document.getElementById('view-quiz').classList.add('active');
-
+        
+        // Update UI for Mock vs Practice
         const timerBadge = document.getElementById('timer-disp');
         const submitBtn = document.getElementById('btn-submit');
         const nextBtn = document.getElementById('btn-next');
@@ -368,7 +375,6 @@
         renderQuestion();
     }
 
-    // --- RENDER LOGIC ---
     function renderQuestion() {
         const q = questionBank[curIdx];
         document.getElementById('q-num').textContent = `${curIdx + 1} / ${questionBank.length}`;
@@ -476,7 +482,7 @@
         if(text) document.getElementById('loading-text').textContent = text;
     }
 
-    // --- ROBUST AI FUNCTION (Supports 2.0 Experimental + 1.5 Fallback) ---
+    // --- ROBUST AI FUNCTION (With Fallbacks) ---
     async function askAI() {
         const q = questionBank[curIdx];
         const box = document.getElementById('ai-result');
@@ -511,13 +517,10 @@
 
         try {
             try {
-                // Try Experimental 2.0 first
                 const text = await callGemini("gemini-2.0-flash-exp");
                 box.innerHTML = marked.parse(text) + `<div style="text-align:right; font-size:0.7rem; opacity:0.6; margin-top:5px;">Gemini 2.0 Flash</div>`;
             } catch (err) {
-                console.warn("2.0 Exp busy, trying 1.5...", err);
                 box.innerHTML = "⚠️ 2.0 Busy, switching to Stable 1.5...<br>";
-                // Fallback to Stable 1.5 Flash
                 const text = await callGemini("gemini-1.5-flash");
                 box.innerHTML += marked.parse(text);
             }
