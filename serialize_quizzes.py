@@ -14,14 +14,33 @@ EXCLUDE_FILES = ["qbanks.html", "index.html"]
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
+def clean_text_content(text):
+    """Removes unwanted signatures and cleans HTML."""
+    if not text: return ""
+    # Remove specific telegram handle
+    text = text.replace("@dams_new_robot", "")
+    # Remove generic telegram links if any
+    text = re.sub(r't\.me\/\w+', '', text)
+    return text.strip()
+
+def categorize_test(title):
+    """Sorts tests into brands/categories based on keywords."""
+    t = title.lower()
+    if "cereb" in t or "btr" in t: return "Cerebellum / BTR"
+    if "prep" in t or "rr" in t or "rapid" in t: return "Prepladder / RR"
+    if "dams" in t or "dqb" in t: return "DAMS / DQB"
+    if "aiims" in t: return "AIIMS PYQ"
+    if "inicet" in t: return "INICET PYQ"
+    if "neet" in t: return "NEET PG PYQ"
+    return "General / Mixed"
+
+def generate_question_id(text):
+    hash_object = hashlib.md5(text.strip().encode('utf-8'))
+    return hash_object.hexdigest()[:8]
+
 def clean_filename(text):
     safe_text = re.sub(r'[^\w\s-]', '', text)
     return safe_text.strip().replace(" ", "_")
-
-def generate_question_id(text):
-    """Generates a deterministic 8-char unique ID."""
-    hash_object = hashlib.md5(text.strip().encode('utf-8'))
-    return hash_object.hexdigest()[:8]
 
 def extract_from_file(filepath):
     try:
@@ -53,37 +72,40 @@ def extract_from_file(filepath):
 
         iframe = container.find('iframe')
         if iframe and iframe.get('srcdoc'):
-            # Decode HTML entities (Fixes broken URLs)
             srcdoc = html.unescape(iframe['srcdoc'])
-            
             json_match = re.search(r'questions\s*=\s*(\[\{.*\}\]);', srcdoc, re.DOTALL)
             
             if json_match:
                 try:
                     questions_data = json.loads(json_match.group(1))
                     
-                    # --- PROCESS QUESTIONS ---
+                    # --- CLEAN AND PROCESS ---
                     for q in questions_data:
-                        # Generate ID
-                        q['uid'] = generate_question_id(q.get('text', ''))
+                        q['text'] = clean_text_content(q.get('text', ''))
+                        q['explanation'] = clean_text_content(q.get('explanation', ''))
+                        q['uid'] = generate_question_id(q['text'])
                         
-                        # Ensure multimedia fields exist, even if empty
+                        # Ensure fields exist
                         if 'video' not in q: q['video'] = ""
                         if 'audio' not in q: q['audio'] = ""
                         if 'question_images' not in q: q['question_images'] = []
                     
                     safe_title = clean_filename(title)
+                    category = categorize_test(title)
                     out_filename = f"{safe_title}.json"
                     
+                    # Unique filename check
                     counter = 1
                     while os.path.exists(os.path.join(OUTPUT_DIR, out_filename)):
                          out_filename = f"{safe_title}_{counter}.json"
                          counter += 1
 
                     final_data = {
-                        "id": container_id,
-                        "title": title,
-                        "source_file": filepath,
+                        "meta": {
+                            "id": container_id,
+                            "title": title,
+                            "category": category
+                        },
                         "questions": questions_data
                     }
                     
@@ -92,10 +114,10 @@ def extract_from_file(filepath):
                     
                     extracted_entries.append({
                         "title": title,
+                        "category": category,
                         "file": out_filename,
                         "questions": len(questions_data)
                     })
-                    print(f"Serialized: {title}")
                     
                 except json.JSONDecodeError:
                     print(f"Error parsing JSON in {title}")
@@ -104,7 +126,7 @@ def extract_from_file(filepath):
 
 def main():
     all_quizzes = []
-    print("Starting serialization...")
+    print("Starting extraction & cleaning...")
 
     for root, dirs, files in os.walk(ROOT_DIR):
         if OUTPUT_DIR in root: continue
@@ -116,10 +138,14 @@ def main():
                 if tests:
                     all_quizzes.extend(tests)
 
+    # Sort by Category, then Title
+    all_quizzes.sort(key=lambda x: (x['category'], x['title']))
+
     with open(MANIFEST_FILE, "w", encoding='utf-8') as f:
         json.dump(all_quizzes, f, indent=2)
 
     print(f"\nDONE! Processed {len(all_quizzes)} tests.")
+    print(f"Categories assigned. Telegram IDs removed.")
 
 if __name__ == "__main__":
     main()
