@@ -1,0 +1,1403 @@
+{
+  "id": "test12",
+  "title": "Orthopedics_FMGE_PYQ",
+  "source_file": "./DQB FMGE_PYQ.html",
+  "questions": [
+    {
+      "text": "A 53 yr female presented to OPD with complaints of knee joint pain for the last 6 months. She adds that pain is aggravated mostly whenever she' sits after performing household work. On examination there was swelling around the knee joint and microscopic examination of synovial fluid after arthrocentesis revealed needle shaped crystals with negative birefringence. What's the most likely diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Gout",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Pseudogout",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Ankylosing spondylitis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Osteoarthritis",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Gout",
+      "question_images": [],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404171019-1.png"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/42173461704447406/42173461704447406.m3u8",
+      "uid": "65b0b00c"
+    },
+    {
+      "text": "A 70 year old female presented to OPD with pain in her right knee. The knee is swollen as well. The clinical image of the case is shown. Identify the disease?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Paget's disease of bone",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Osteoarthritis knees",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Rheumatoid arthritis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Gouty arthritis",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Osteoarthritis knees",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/2(799).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404171052-1.png"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/53693751704447420/53693751704447420.m3u8",
+      "uid": "ba71cacb"
+    },
+    {
+      "text": "A 6 year old girl presented in an emergency department with elbow pain' there is swelling in the elbow and hand, and she can't move the elbow due to pain, and is having numbness in the fingers/hand. Her pulse is also feeble. An X ray was performed. Identity the vessel at danger?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Ulnar Nerve",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Brachial artery",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Axillary nerve",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Radial Nerve",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Brachial artery",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/14490681704447443/14490681704447443.m3u8",
+      "uid": "4b6dddc7"
+    },
+    {
+      "text": "Five year old male child presents in your OPD with genu varum on X ray; osteopenia and pseudo fractures can be noticed. On blood investigations, there is decreased vitamin D and increased ALP. What is the most probable diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Osteomalacia",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Osteitis deformans",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Osteopetrosis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Osteoporosis",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Osteomalacia",
+      "question_images": [],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404171144-1.jpeg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/18586091704447463/18586091704447463.m3u8",
+      "uid": "2466781a"
+    },
+    {
+      "text": "A Patient presented to the emergency department after falling on an ' outstretched hand. On examination, dinner fork deformity can be noticed. What can be a probable diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Colles' fracture",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Carpal tunnel syndrome",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Osteoporosis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Smiths fracture",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Colles' fracture",
+      "question_images": [],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Untitled(179).jpg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/4554031704447475/4554031704447475.m3u8",
+      "uid": "ed92ab61"
+    },
+    {
+      "text": "Identify the condition?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Genu Valgum",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Genu Varus",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Muscle deformity",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Femur fracture",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Genu Valgum",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/6(526).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404172451-1.jpeg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/29308631704447490/29308631704447490.m3u8",
+      "uid": "64301ece"
+    },
+    {
+      "text": "A 20 year old male presented to ortho OPD with chronic pain and swelling palpable in the knee. An Xray was performed given below. Identify the pathology?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Osteochondroma",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Osteoblastoma",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Osteoporosis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Osteitis fibrosis cystica",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Osteochondroma",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/8(475).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404172716-1.jpeg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/77689891704447502/77689891704447502.m3u8",
+      "uid": "c3a29b32"
+    },
+    {
+      "text": "A 20 year old male with pain lateral side of his hand. An Xray was performed. Identify the Disease?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Giant cell tumor",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Osteoid osteoma",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Osteoblastoma",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Enchondroma",
+          "correct": true
+        }
+      ],
+      "correct_answer": "D. Enchondroma",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/9(440).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Capture(1177).JPG"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/39683331704447515/39683331704447515.m3u8",
+      "uid": "1308a531"
+    },
+    {
+      "text": "A 3 year old baby is presented to the OPD by his worried parents with the following complaint. How would you manage the patient?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Manipulation & cast",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Postero-medial Soft Tissue Release",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Triple arthrodesis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Evan's Procedure",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Postero-medial Soft Tissue Release",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/10(460).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404172919-1.png"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/54877811704447527/54877811704447527.m3u8",
+      "uid": "4480f5c5"
+    },
+    {
+      "text": "A patient comes to the OPD with pain and swelling in his wrist. The X-ray is given below. What could be the diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Osteosarcoma",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Giant Cell Tumor",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Chondroblastoma",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Aneurysmal Bone Cyst",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Giant Cell Tumor",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/11(372).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404173156-1.jpeg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/56703181704447553/56703181704447553.m3u8",
+      "uid": "0fc416e8"
+    },
+    {
+      "text": "What is the treatment for the fracture given in the image?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Total patellectomy",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "K-wire",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Conservative treatment",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "None of the above",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. K-wire",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/12(386).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/image-20230404173233-1.jpeg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/16644841704447567/16644841704447567.m3u8",
+      "uid": "521e88f0"
+    },
+    {
+      "text": "A patient comes to OPD with c/o pain swelling in right shoulder. Fracture clavicle is suspected, which is the most common site of fracture clavicle?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Lateral 1/3rd",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Junction of lateral 1/3rd and medial 2/3rd",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Junction of medial 1/3rd and lateral 2/3rd",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Medial 1/ 3rd",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Junction of lateral 1/3rd and medial 2/3rd",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/27855081704447584/27855081704447584.m3u8",
+      "uid": "277d13dd"
+    },
+    {
+      "text": "What would be the probable diagnosis in the given X ray image?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Pott's spine",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Pyogenic spondylitis",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Multiple myeloma",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Ankylosing spondylitis",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Pott's spine",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/14(330).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Untitled(180).jpg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/20419681704447599/20419681704447599.m3u8",
+      "uid": "20c97e9c"
+    },
+    {
+      "text": "A patient falls on an out-stretched hand. For management the doctor ties a cast as given in the image. Which fracture the patient suffer from?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Colles' Fracture",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Scaphoid Fracture",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Smith's Fracture",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Galeazzi's Fracture",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Scaphoid Fracture",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/15(319).jpg"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Capture(1178).JPG"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "https://d2enu63wt1sf3u.cloudfront.net/dqb_vod/43974001704447616/43974001704447616.m3u8",
+      "uid": "b5908e1d"
+    },
+    {
+      "text": "An 80 year old female patient is brought to the casualty with a history of slip and fall in the bathroom. She is having pain in the left hip and is unable to walk. She has no history of osteoarthritis. On examination, the left lower limb is shortened and externally rotated. X-ray findings are shown below. How will you manage this patient?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Internal fixation with cancellous screws",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Meyer\u2019s operation",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Hemiarthroplasty",
+          "correct": true
+        },
+        {
+          "label": "D",
+          "text": "McMurray\u2019s osteotomy",
+          "correct": false
+        }
+      ],
+      "correct_answer": "C. Hemiarthroplasty",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/1(85).png"
+      ],
+      "explanation_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/212796-28A.jpg"
+      ],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "78e5233f"
+    },
+    {
+      "text": "Identify the following condition",
+      "options": [
+        {
+          "label": "A",
+          "text": "Fracture olecranon",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Fracture Head Radius",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Monteggia fracture",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Terrible triad of Elbow",
+          "correct": true
+        }
+      ],
+      "correct_answer": "D. Terrible triad of Elbow",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/1(405).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "01cd324a"
+    },
+    {
+      "text": "8 year old sustained fracture around elbow 2 years ago and has difficulty in hanging school bag. Diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Posterior elbow dislocation",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Supracondylar fracture humerus",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Lateral condyle fracture humerus",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "olecranon fracture",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Supracondylar fracture humerus",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/2(358).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "b335cab7"
+    },
+    {
+      "text": "In a patient with localised bone pain,exaggerated in night, relieved by intake of aspirin. What's the most likely diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Rheumatoid Arthritis",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Osteoarthritis",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Osteoid Osteoma",
+          "correct": true
+        },
+        {
+          "label": "D",
+          "text": "Fibromyalgia",
+          "correct": false
+        }
+      ],
+      "correct_answer": "C. Osteoid Osteoma",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/3(322).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "162f1a6b"
+    },
+    {
+      "text": "30 year old after RTA has kept limb in external rotation. What is the diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Posterior hip dislocation",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Anterior hip dislocation",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Fracture neck femur",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Inter trochaenteric fracture femur",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Anterior hip dislocation",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "71735feb"
+    },
+    {
+      "text": "In given case which nerve is injured?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Median nerve",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Radial nerve",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Ulnar nerve",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Axillary nerve",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Radial nerve",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/1(419).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "e4b6f278"
+    },
+    {
+      "text": "Outstretched hand with fracture of anatomical snuff box which bone most likely to fracture?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Pisiform",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Scaphoid",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Lunate",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Trapezium",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Scaphoid",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "4dee086f"
+    },
+    {
+      "text": "Injury to :",
+      "options": [
+        {
+          "label": "A",
+          "text": "Biceps",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Supraspinatus",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Serratus anterior",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Brachioradialis",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Biceps",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/3(336).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "23531462"
+    },
+    {
+      "text": "Identify the image?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Cubitus valgus",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Cubitus Varus",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Cubitus rectus",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Normal",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Cubitus valgus",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/4(306).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "ea5d220f"
+    },
+    {
+      "text": "In given image. Which structure most likely to be damaged?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Vagus nerve",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Spinal Accessory nerve",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Long thoracic nerve of bell",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Suprascapular nerve",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Spinal Accessory nerve",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/5(311).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "366ffbdb"
+    },
+    {
+      "text": "A 50 year old female complaints of Bone Pain for several months. The X ray is shown below. Identify the condition?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Osteosarcoma",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Osteochondroma",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Paget's Disease",
+          "correct": true
+        },
+        {
+          "label": "D",
+          "text": "Ewing's Sarcoma",
+          "correct": false
+        }
+      ],
+      "correct_answer": "C. Paget's Disease",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/1(426).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "301d0bd1"
+    },
+    {
+      "text": "Codman's Triangle is seen in which of the following conditions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Osteomyelitis",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Aneurysmal bone cyst",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Osteosarcoma",
+          "correct": true
+        },
+        {
+          "label": "D",
+          "text": "Chondrosarcoma",
+          "correct": false
+        }
+      ],
+      "correct_answer": "C. Osteosarcoma",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "bbf628c7"
+    },
+    {
+      "text": "A 17 year old patient presents with a growth behind the heel on Talus as shown in the image below. Identify the condition?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enchondroma",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Osteosarcoma",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Osteomyelitis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Osteochondroma",
+          "correct": true
+        }
+      ],
+      "correct_answer": "D. Osteochondroma",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/3(342).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "e049bb8a"
+    },
+    {
+      "text": "Using the X-ray below, Identify the Type of Salter & Harris Classification",
+      "options": [
+        {
+          "label": "A",
+          "text": "Type 1",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Type 2",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Type 3",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Type 5",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Type 2",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/4(313).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "b38f63f0"
+    },
+    {
+      "text": "A patient had a fall on an outstretched hand. X-ray showed the first MCP joint fracture along with the subluxation. Define the fracture?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Bennet",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Scaphoid",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Rolando",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Colles",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Bennet",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/5(319).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "9db5196b"
+    },
+    {
+      "text": "Patient had an RTA & sustained fracture of both Tibia and Fibula following a primary impact injury. What is Name of the Fracture?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Bumper Fracture",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Patella sleeve fracture",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Depressed Skull fracture",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Cervical fracture",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Bumper Fracture",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "8d9bea71"
+    },
+    {
+      "text": "Identify the stage of TB Hip in a female with left leg Shortening?",
+      "options": [
+        {
+          "label": "A",
+          "text": "1",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "2",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "3",
+          "correct": true
+        },
+        {
+          "label": "D",
+          "text": "4",
+          "correct": false
+        }
+      ],
+      "correct_answer": "C. 3",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "c5da8e6e"
+    },
+    {
+      "text": "Which Vitamin Deficiency is seen in Rickets?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "B",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "C",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "D",
+          "correct": true
+        }
+      ],
+      "correct_answer": "D. D",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "e950af41"
+    },
+    {
+      "text": "A motorcyclist met with a RTA and had a metacarpal fracture. Hypothenar atrophy is observed. Identify the nerve involved?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Radial",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Ulnar",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Musculocutaneous",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Median nerve",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Ulnar",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/9(204).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "50d2303e"
+    },
+    {
+      "text": "Which nerve will be involved in the following finding on rest?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Ulnar",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Median",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Musculocutaneous",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "None",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Median",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Ortho-2.png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "6b44abc4"
+    },
+    {
+      "text": "Identify the instrument:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Bohler braun splint",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Thomas splint",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Volkmann splint",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Cramer wire",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Bohler braun splint",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Ortho-3.png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "7ce15d8f"
+    },
+    {
+      "text": "A 30-year-old meet accident and presented with following finding what is the diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Anterior hip dislocation",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Posterior hip dislocation",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Superior hip dislocation",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Both a and b",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Anterior hip dislocation",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Ortho-4.png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "dfc5715d"
+    },
+    {
+      "text": "A 20-year-old male patient presented with localized pain, which is gradual in onset and worsened over time. X ray showed following finding what is the diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Osteosarcoma",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Ewing Sarcoma",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Chondro Sarcoma",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Gout",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Osteosarcoma",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/1(1239).png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "687bbbd5"
+    },
+    {
+      "text": "A 7-year-old child was brought with bow legs and on x-ray or wrist following were the findings what is the diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Rickets",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Scurvy",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Hypophosphatemia",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "None",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Rickets",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Ortho-5.png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "a115fa98"
+    },
+    {
+      "text": "Identify the fracture:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Depressed fracture",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Linear fracture",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Hinge fracture",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Gutter fracture",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Depressed fracture",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Ortho-6.png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "77425e02"
+    },
+    {
+      "text": "A 23-year-old male epileptic patient presented with pain in right shoulder region. Examination revealed that right upper limb was adducted and internally rotated and the movements could not be performed. Which of the following is most likely diagnosed?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Intrathoracic dislocation of shoulder",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Luxation erecta",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Subglenoid dislocation of shoulder",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Posterior dislocation of shoulder",
+          "correct": true
+        }
+      ],
+      "correct_answer": "D. Posterior dislocation of shoulder",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "e0363467"
+    },
+    {
+      "text": "A 42-year-old women laborer presented with visible, soft, and fluctuating swelling in front of the knee, over the patella and Some discomfort or difficulty with knee movement, MRI findings are given below what is the diagnosis?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Housemaid's knee",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Subdermal abscess",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Gout",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Rheumatoid arthritis",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Housemaid's knee",
+      "question_images": [
+        "https://d2enu63wt1sf3u.cloudfront.net/ckfinder/files/Ortho-7.png"
+      ],
+      "explanation_images": [],
+      "explanation": "<p>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "video": "",
+      "uid": "1d0f86ed"
+    }
+  ]
+}

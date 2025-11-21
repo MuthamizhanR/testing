@@ -1,0 +1,40 @@
+{
+  "id": "test40",
+  "title": "Vitreous-Previous_Year_Questions",
+  "source_file": "./prepx_Ophthalmology.html",
+  "questions": [
+    {
+      "text": "A patient has sudden loss of vision and there is no fundus glow. There is no history of trauma, what could be the likely cause?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Vitreous hemorrhage",
+          "correct": true
+        },
+        {
+          "label": "B",
+          "text": "Acute anterior uveitis",
+          "correct": false
+        },
+        {
+          "label": "C",
+          "text": "Optic neuritis",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Acute congestive glaucoma",
+          "correct": false
+        }
+      ],
+      "correct_answer": "A. Vitreous hemorrhage",
+      "question_images": [],
+      "explanation_images": [],
+      "explanation": "\n\n<p style='font-size: 10px; color: #808080; font-style: italic;'>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "audio": "",
+      "video": "",
+      "uid": "6918c964"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "test11",
+  "title": "Endometrial_Hyperplasia___Polyps-Previous_Year_Questions",
+  "source_file": "./prepx_Gynaecology___Obstetrics.html",
+  "questions": [
+    {
+      "text": "What is the probable diagnosis for a 45-year-old female patient who experiences bleeding after sexual intercourse, and upon per vaginal examination, a lesion is observed that bleeds when touched?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Hemorrhagic cyst",
+          "correct": false
+        },
+        {
+          "label": "B",
+          "text": "Cervical polyp",
+          "correct": true
+        },
+        {
+          "label": "C",
+          "text": "Cervical cancer",
+          "correct": false
+        },
+        {
+          "label": "D",
+          "text": "Cervical fibroid",
+          "correct": false
+        }
+      ],
+      "correct_answer": "B. Cervical polyp",
+      "question_images": [],
+      "explanation_images": [
+        "https://image.prepladder.com/notes/2vYv8FdXXkwFehsXzZ9o1747985030.png"
+      ],
+      "explanation": "\n\n<p style='font-size: 10px; color: #808080; font-style: italic;'>@dams_new_robot</p>",
+      "bot": "@dams_new_robot",
+      "audio": "",
+      "video": "",
+      "uid": "72de1836"
+    }
+  ]
+}
