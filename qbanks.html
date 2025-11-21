@@ -1,3 +1,4 @@
+<!-- MEDTRIX ENGINE v3.0 (With Analytics Tracking) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        /* ... (Keep your existing styles from the previous optimized version) ... */
+        /* Paste styles from previous response here, or use the file you already have. */
+        /* Adding just one new style for feedback: */
+        .saved-toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .saved-toast.show { opacity: 0.7; }
+        
         :root {
             --bg-app: #f0f2f5;
             --bg-card: #ffffff;
@@ -132,25 +139,27 @@
 <body>
 
 <header>
-    <div class="brand" onclick="closeQuiz()">
+    <a href="index.html" class="brand">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        MEDTRIX
-    </div>
+        MEDTRIX <span style="color:var(--text-secondary); font-weight:400; font-size:0.9em; margin-left:5px;">Engine</span>
+    </a>
     <button class="icon-btn" onclick="toggleTheme()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
     </button>
 </header>
 
+<!-- INDEX -->
 <div id="view-dashboard">
     <input type="text" id="search" class="search-bar" placeholder="Search topics (e.g. DAMS, AIIMS)..." onkeyup="filterIndex()">
     <div id="index-container"></div>
 </div>
 
+<!-- QUIZ -->
 <div id="view-quiz">
     <div class="quiz-header">
         <button class="back-btn" onclick="closeQuiz()">&larr; Back</button>
         <div class="quiz-title" id="q-title">Loading...</div>
-        <div style="width: 60px;"></div> <!-- Spacer for centering -->
+        <div style="width: 60px;"></div>
     </div>
     
     <div class="quiz-content">
@@ -164,10 +173,7 @@
             </div>
 
             <div class="q-text" id="q-text"></div>
-            
-            <!-- QUESTION IMAGES ONLY (Media needed to answer) -->
             <div class="media-grid" id="q-media-question"></div>
-
             <div class="options" id="q-options"></div>
 
             <div class="exp-section" id="q-exp">
@@ -175,13 +181,8 @@
                     Explanation
                     <button class="ai-btn" onclick="askAI()">✨ Ask AI</button>
                 </div>
-                
-                <!-- EXPLANATION TEXT -->
                 <div class="exp-content" id="exp-text"></div>
-                
-                <!-- EXPLANATION MEDIA (Hidden until answered) -->
                 <div class="media-grid" id="exp-media-container"></div>
-
                 <div class="ai-response" id="ai-result"></div>
             </div>
         </div>
@@ -191,16 +192,15 @@
         <button class="nav-btn btn-prev" id="btn-prev" onclick="move(-1)">Previous</button>
         <button class="nav-btn btn-next" id="btn-next" onclick="move(1)">Next</button>
     </div>
+    <div class="saved-toast" id="save-toast">Progress Saved</div>
 </div>
 
 <script>
-    // --- API KEYS (Correctly Formatted) ---
+    // --- CONFIGURATION ---
+    // Replace this with ONE valid API key to test first.
+    // If you need rotation, ensure all keys in the list are valid and active.
     const API_KEYS = [
-        "AIzaSyAoaaivpH3YYVHle6dY31m_GmzIPA3TpZI",
-        "AIzaSyCLIvqlLAWLrc_FkW6oW0vHSVWMViJd38k",
-        "AIzaSyD1vFAKNdNO5ANsMVw7mkejxLrPQYOGX4g",
-        "AIzaSyAL35j4nj_5qlDo5U1cjclozoVHpO3YCyo",
-        "AIzaSyAOuk5NbH0O1MFAQypnD8Ia9MNfFo6aVDc"
+        "AIzaSyAoaaivpH3YYVHle6dY31m_GmzIPA3TpZI" 
     ];
 
     // --- STATE ---
@@ -208,12 +208,15 @@
     let currentTest = null;
     let curIdx = 0;
     let currentFilename = "";
+    const STORAGE_KEY = "medtrix_analytics";
 
+    // --- INIT ---
     document.addEventListener('DOMContentLoaded', () => {
         if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
         loadManifest();
     });
 
+    // --- DATA LOADING ---
     async function loadManifest() {
         try {
             const res = await fetch('manifest.json');
@@ -223,10 +226,11 @@
             const params = new URLSearchParams(window.location.search);
             if(params.get('test')) openTest(params.get('test'), params.get('q'));
         } catch(e) {
-            document.getElementById('index-container').innerHTML = '<p style="text-align:center; color:red;">Error loading index.</p>';
+            document.getElementById('index-container').innerHTML = '<p style="text-align:center; color:red;">Error loading manifest. Run python script.</p>';
         }
     }
 
+    // --- RENDER INDEX (Accordion) ---
     function renderIndex(list) {
         const container = document.getElementById('index-container');
         container.innerHTML = "";
@@ -246,7 +250,7 @@
                 </li>
             `).join('');
 
-            const isOpen = idx === 0 ? "open" : ""; // Open first group by default
+            const isOpen = idx === 0 ? "open" : "";
             container.innerHTML += `
                 <div class="category-group ${isOpen}">
                     <div class="group-header" onclick="this.parentElement.classList.toggle('open')">
@@ -266,6 +270,7 @@
         document.querySelectorAll('.category-group').forEach(g => g.classList.add('open'));
     }
 
+    // --- QUIZ LOGIC ---
     async function openTest(filename, qId = null) {
         try {
             const res = await fetch(`quiz_data/${filename}`);
@@ -285,7 +290,7 @@
             renderQuestion();
         } catch(e) {
             console.error(e);
-            alert("Failed to load test.");
+            alert("Failed to load test data.");
         }
     }
 
@@ -321,47 +326,45 @@
             </button>
         `).join('');
 
-        // 3. Explanation & Exp Media (Hidden)
+        // 3. Reset Explanation Area
         document.getElementById('q-exp').classList.remove('show');
         document.getElementById('ai-result').style.display = 'none';
+        document.getElementById('ai-result').innerHTML = '';
         
-        // Reset Exp Content
         const expMediaDiv = document.getElementById('exp-media-container');
         expMediaDiv.innerHTML = '';
-        
-        // Add Exp Text
-        let expText = q.explanation || "No explanation.";
-        // Linkifier for MP4/M3U8 in text
+
+        // Process Explanation Text (Embed Links)
+        let expText = q.explanation || "No explanation provided.";
         expText = expText.replace(/(https?:\/\/\S+\.(?:mp4|m3u8|mp3))/gi, (match) => {
             const id = 'media-' + Math.random().toString(36).substr(2, 9);
-            if(match.endsWith('.mp3')) {
-                return `<audio controls src="${match}" class="q-audio"></audio>`;
-            }
-            // Return placeholder for video, init later
+            if(match.endsWith('.mp3')) return `<div style="margin-top:10px"><audio controls src="${match}" style="width:100%"></audio></div>`;
             setTimeout(() => initVideo(id, match), 100);
-            return `<video id="${id}" controls class="q-video"></video>`;
+            return `<div style="margin-top:10px"><video id="${id}" controls class="q-video"></video></div>`;
         });
         document.getElementById('exp-text').innerHTML = expText;
 
-        // Add Exp Images
+        // Append Explanation Images
         if(q.explanation_images) {
             q.explanation_images.forEach(src => {
                 expMediaDiv.innerHTML += `<img src="${src}" class="q-img">`;
             });
         }
 
-        // Add Main Video/Audio fields to Explanation (Hidden initially)
+        // Append Main Video/Audio (Hidden until answered)
         if(q.video && q.video.length > 5) {
             const vId = `vid-main-${curIdx}`;
-            expMediaDiv.innerHTML += `<video id="${vId}" controls class="q-video"></video>`;
+            expMediaDiv.innerHTML += `<video id="${vId}" controls class="q-video" style="margin-top:10px"></video>`;
             setTimeout(() => initVideo(vId, q.video), 100);
         }
         if(q.audio && q.audio.length > 5) {
-            expMediaDiv.innerHTML += `<audio controls src="${q.audio}" class="q-audio"></audio>`;
+            expMediaDiv.innerHTML += `<audio controls src="${q.audio}" style="width:100%; margin-top:10px"></audio>`;
         }
 
+        // Nav Buttons
         document.getElementById('btn-prev').disabled = curIdx === 0;
         document.getElementById('btn-next').textContent = curIdx === currentTest.questions.length - 1 ? "Finish" : "Next";
+        
         document.querySelector('.quiz-content').scrollTop = 0;
     }
 
@@ -369,19 +372,44 @@
         const all = document.querySelectorAll('.opt-btn');
         all.forEach(b => b.disabled = true);
 
-        if(isCorrect) {
-            btn.classList.add('correct');
-        } else {
+        if(isCorrect) btn.classList.add('correct');
+        else {
             btn.classList.add('wrong');
-            // Auto highlight correct
             const q = currentTest.questions[curIdx];
             const correctIndex = q.options.findIndex(o => o.correct);
             if(correctIndex !== -1) all[correctIndex].classList.add('correct');
         }
         
+        // Show Explanation
         document.getElementById('q-exp').classList.add('show');
+        
+        // Analytics
+        saveToAnalytics(currentTest.questions[curIdx], isCorrect);
+
+        // Mobile Scroll
         if(window.innerWidth < 768) {
             setTimeout(() => document.getElementById('q-exp').scrollIntoView({behavior:'smooth'}), 100);
+        }
+    }
+
+    function saveToAnalytics(questionObj, isCorrect) {
+        let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        data = data.filter(item => item.uid !== questionObj.uid); // Remove dupe
+        data.push({
+            uid: questionObj.uid,
+            text: questionObj.text,
+            explanation: questionObj.explanation,
+            timestamp: Date.now(),
+            isCorrect: isCorrect,
+            testFile: currentFilename,
+            options: questionObj.options
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        
+        const t = document.getElementById('save-toast');
+        if(t) {
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 1000);
         }
     }
 
@@ -407,26 +435,64 @@
         }
     }
 
+    // --- AI FUNCTION (FIXED) ---
     async function askAI() {
         const q = currentTest.questions[curIdx];
         const box = document.getElementById('ai-result');
+        const btn = document.querySelector('.ai-btn');
+        
         box.style.display = 'block';
         box.innerHTML = "🤖 Analyzing...";
+        btn.disabled = true;
 
-        const prompt = `Question: ${q.text}\nCorrect Answer: ${q.options.find(o=>o.correct)?.text}\nExplanation Context: ${document.getElementById('exp-text').innerText}\n\nExplain clearly why the answer is correct and others are wrong. Keep it medical and concise.`;
+        // 1. Get Key
+        const key = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
 
+        // 2. Construct Prompt
+        const correctOpt = q.options.find(o => o.correct)?.text || "Not specified";
+        const promptText = `
+        You are a medical professor. Explain this question clearly.
+        
+        Question: ${q.text}
+        Correct Answer: ${correctOpt}
+        Context from notes: ${document.getElementById('exp-text').innerText.substring(0, 500)}
+        
+        Explain why the correct answer is right and why the others are wrong. Keep it concise.
+        `;
+
+        // 3. API Call
         try {
-            const key = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${key}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: promptText }] }],
+                    // Safety settings to prevent blocking medical terms
+                    safetySettings: [
+                        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+                        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" }
+                    ]
+                })
             });
+
             const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+
             const text = data.candidates[0].content.parts[0].text;
             box.innerHTML = marked.parse(text);
         } catch(e) {
-            box.innerHTML = "⚠️ AI Error. Please try again.";
+            console.error("AI Error:", e);
+            box.innerHTML = `<div style="color:red; padding:10px; border:1px solid red; border-radius:8px;">
+                <strong>AI Error:</strong> ${e.message}. <br>
+                <em>Check your API Key in the script.</em>
+            </div>`;
+        } finally {
+            btn.disabled = false;
         }
     }
 
@@ -438,8 +504,19 @@
     }
 
     function copyLink() {
-        navigator.clipboard.writeText(window.location.href);
-        alert("Link copied to clipboard!");
+        const url = new URL(window.location.href);
+        url.searchParams.set('test', currentFilename);
+        url.searchParams.set('q', currentTest.questions[curIdx].uid);
+        navigator.clipboard.writeText(url.toString());
+        
+        // Show Toast
+        const t = document.getElementById('toast');
+        if(t) {
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
+        } else {
+            alert("Link Copied!");
+        }
     }
 
     function toggleTheme() {
