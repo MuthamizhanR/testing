@@ -130,66 +130,24 @@
 </header>
 
 <div id="view-dashboard">
-    <!-- NEW GRAND MOCK TILE -->
-    <div class="mock-tile">
-        <h2 style="margin:0; font-size:1.8rem;">Grand Mock Exam</h2>
-        <p style="opacity:0.9; margin:10px 0;">200 Questions • 3 Hours • NEET PG Pattern</p>
-        <p style="font-size:0.9rem; opacity:0.8;">Intelligent generator uses subject weightage (Surgery 21, Medicine 20...)</p>
-        <button class="mock-btn" onclick="generateMockTest()">Start 200Q Mock</button>
-    </div>
-
-    <input type="text" id="search" class="search-bar" placeholder="Search individual tests (e.g. DAMS)..." onkeyup="filterIndex()">
-    <div id="index-container"></div>
-</div>
-
-<div id="view-quiz">
-    <div class="quiz-header">
-        <button class="back-btn" onclick="confirmExit()">Exit</button>
-        <div class="quiz-title" id="q-title">Test</div>
-        <div class="timer-badge" id="timer-disp">00:00:00</div>
-    </div>
     
-    <div class="quiz-content">
-        <div class="q-card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px; color:var(--text-secondary); font-size:0.9rem;">
-                <span class="q-badge" id="q-num">1 / 10</span>
-                <span id="q-id-disp" style="font-family:monospace;"></span>
-            </div>
-
-            <div class="q-text" id="q-text"></div>
-            <div id="q-media"></div>
-            <div id="q-options"></div>
-
-            <div class="exp-section" id="q-exp">
-                <div class="exp-title">
-                    Explanation
-                    <button class="ai-btn" onclick="askAI()">✨ Ask AI</button>
-                </div>
-                <div class="exp-content" id="exp-text"></div>
-                <div class="ai-response" id="ai-result"></div>
-            </div>
+    <!-- SECTION 1: MOCK BANNER (Hidden by default) -->
+    <div id="sec-mock" style="display:none;">
+        <div class="mock-tile">
+            <h2 style="margin:0; font-size:1.8rem;">Grand Mock Exam</h2>
+            <p style="opacity:0.9; margin:10px 0;">200 Questions • 3 Hours • NEET PG Pattern</p>
+            <p style="font-size:0.9rem; opacity:0.8;">Intelligent generator uses subject weightage (Surgery 21, Medicine 20...)</p>
+            <button class="mock-btn" onclick="generateMockTest()">Start 200Q Mock</button>
         </div>
     </div>
 
-    <div class="quiz-footer">
-        <button class="nav-btn btn-sec" onclick="move(-1)">Previous</button>
-        <button class="nav-btn btn-pri" id="btn-next" onclick="move(1)">Next</button>
-        <button class="nav-btn btn-submit" id="btn-submit" onclick="finishMock()">Submit Exam</button>
+    <!-- SECTION 2: SUBJECT LIST (Hidden by default) -->
+    <div id="sec-list" style="display:none;">
+        <h2 style="margin-bottom:15px; color:var(--accent);">Subject Tests</h2>
+        <input type="text" id="search" class="search-bar" placeholder="Search individual tests (e.g. DAMS, Surgery)..." onkeyup="filterIndex()">
+        <div id="index-container"></div>
     </div>
-</div>
 
-<div class="modal-overlay" id="result-modal">
-    <div class="modal-card">
-        <h2 style="margin-top:0;">Exam Result</h2>
-        <div style="font-size:3.5rem; font-weight:800; color:var(--accent); margin:10px 0;" id="final-score">0</div>
-        <p style="color:var(--text-secondary);">Out of 800 Marks</p>
-        <div style="display:flex; justify-content:space-around; margin:20px 0; background:var(--bg-app); padding:15px; border-radius:12px;">
-            <div><strong style="color:var(--success); display:block; font-size:1.2rem;" id="res-c">0</strong>Correct</div>
-            <div><strong style="color:var(--error); display:block; font-size:1.2rem;" id="res-w">0</strong>Wrong</div>
-            <div><strong style="color:var(--text-secondary); display:block; font-size:1.2rem;" id="res-u">0</strong>Skip</div>
-        </div>
-        <button class="mock-btn" style="background:var(--accent); color:white; width:100%;" onclick="closeResult()">Review Answers</button>
-    </div>
 </div>
 
 <script>
@@ -218,9 +176,24 @@
     // --- INIT ---
     document.addEventListener('DOMContentLoaded', () => {
         if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+        
+        // DETERMINE MODE (Mock vs List)
+        const params = new URLSearchParams(window.location.search);
+        const mode = params.get('mode');
+
+        if (mode === 'list') {
+            // Show List, Hide Mock
+            document.getElementById('sec-list').style.display = 'block';
+            document.getElementById('sec-mock').style.display = 'none';
+        } else {
+            // Default: Show Mock, Hide List
+            document.getElementById('sec-mock').style.display = 'block';
+            document.getElementById('sec-list').style.display = 'none';
+        }
+
         loadManifest();
     });
-
+    
     // --- DATA LOADING ---
     async function loadManifest() {
         try {
