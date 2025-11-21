@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDTRIX | Library</title>
+    <style>
+        :root { --primary: #0056b3; --accent: #00a8cc; --bg: #f4f7f6; --card-bg: #ffffff; --text: #333; --border: #e0e0e0; }
+        [data-theme="dark"] { --primary: #1a1a1a; --accent: #bb86fc; --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --border: #333; }
+
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 60px; }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 20px; color: white; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .brand { font-weight: bold; font-size: 1.2rem; color: white; text-decoration: none; }
+
+        /* CONTROLS */
+        .controls { padding: 20px; max-width: 1200px; margin: 0 auto; }
+        #searchInput {
+            width: 100%; padding: 15px; border-radius: 30px; border: none;
+            background: var(--card-bg); color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 1rem; outline: none;
+        }
+
+        /* CONTENT LAYOUT */
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .subject-group { margin-bottom: 30px; animation: fadeIn 0.5s ease; }
+        
+        .subject-header {
+            font-size: 1.3rem; font-weight: bold; color: var(--accent);
+            padding: 10px 0; border-bottom: 2px solid var(--border); margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+        }
+        .subject-header:hover { opacity: 0.8; }
+        
+        .resource-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;
+        }
+        .subject-header.collapsed + .resource-grid { display: none; }
+        .subject-header.collapsed .toggle-icon { transform: rotate(-90deg); }
+        .toggle-icon { transition: 0.3s; font-size: 0.8rem; margin-left: 10px; }
+
+        /* CARDS */
+        .resource-card {
+            background: var(--card-bg); border-radius: 12px; padding: 20px;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 15px;
+            text-decoration: none; color: var(--text); transition: 0.2s;
+        }
+        .resource-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .check-circle {
+            width: 24px; height: 24px; border: 2px solid var(--text); border-radius: 50%; opacity: 0.3;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .check-circle:hover { opacity: 1; border-color: var(--accent); }
+        .check-circle.checked { background: #28a745; border-color: #28a745; color: white; opacity: 1; }
+        .check-circle.checked::after { content: '✓'; font-weight: bold; }
+
+        .card-info { flex-grow: 1; }
+        .card-title { font-weight: bold; font-size: 1rem; margin-bottom: 5px; }
+        .card-desc { font-size: 0.8rem; opacity: 0.6; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: 0; } }
+    
+        /* ANALYTICS MODAL */
+        #statsModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px); animation: fadeIn 0.3s;
+        }
+        .stats-content {
+            background: var(--card-bg); width: 90%; max-width: 500px; padding: 25px;
+            border-radius: 20px; border: 1px solid var(--border); position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .stats-header { font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .close-stats { 
+            position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 1.2rem; 
+            background: var(--bg); width: 30px; height: 30px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .close-stats:hover { background: #ff4444; color: white; }
+
+        /* PROGRESS BARS */
+        .stat-row { margin-bottom: 15px; }
+        .stat-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; font-weight: 600; }
+        .progress-track { height: 10px; background: var(--bg); border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent); border-radius: 5px; transition: width 1s ease; }
+        
+        .total-score { 
+            text-align: center; margin: 20px 0; padding: 15px; background: var(--bg); 
+            border-radius: 15px; font-size: 1.2rem; font-weight: bold; color: var(--primary);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="brand">← Back to Home</a>
+    <div></div>
+</header>
+
+<div class="controls">
+    <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="🔍 Search your notes...">
+</div>
+
+
+    
+
+<div class="main-container">
+
+        <div class="subject-group">
+            <div class="subject-header" onclick="toggleSection(this)">
+                <span>🧖 Dermatology</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="resource-grid">
+        
+                <a href="viewer.html?file=UW%202%20-%20Dermatology%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Dermatology_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Dermatology_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Dermatology - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            </div></div>
+        <div class="subject-group">
+            <div class="subject-header" onclick="toggleSection(this)">
+                <span>👂 ENT</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="resource-grid">
+        
+                <a href="viewer.html?file=UW%202%20-%20Shock%20Supplement.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Shock_Supplement_pdf" onclick="toggleRead(this, 'UW_2_-_Shock_Supplement_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Shock Supplement</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            </div></div>
+        <div class="subject-group">
+            <div class="subject-header" onclick="toggleSection(this)">
+                <span>📄 General / Miscellaneous</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="resource-grid">
+        
+                <a href="viewer.html?file=UW%202%20-%20Biostatistics%20%26%20Epidemiology%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Biostatistics_&_Epidemiology_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Biostatistics_&_Epidemiology_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Biostatistics & Epidemiology - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=UW%202%20-%20Medicine%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Medicine_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Medicine_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Medicine - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=UW%202%20-%20Psychiatry%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Psychiatry_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Psychiatry_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Psychiatry - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=UW_2_Social_Sciences_Ethics%2C_Legal%2C_Professional_Tables_and_Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_Social_Sciences_Ethics,_Legal,_Professional_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_Social_Sciences_Ethics,_Legal,_Professional_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 Social Sciences Ethics, Legal, Professional Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            </div></div>
+        <div class="subject-group">
+            <div class="subject-header" onclick="toggleSection(this)">
+                <span>🧠 Neuroanatomy & Neurology</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="resource-grid">
+        
+                <a href="viewer.html?file=neuro1%20anatomy-1.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro1_anatomy-1_pdf" onclick="toggleRead(this, 'neuro1_anatomy-1_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro1 Anatomy-1</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro2%20stroke.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro2_stroke_pdf" onclick="toggleRead(this, 'neuro2_stroke_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro2 Stroke</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro3%20nerves.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro3_nerves_pdf" onclick="toggleRead(this, 'neuro3_nerves_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro3 Nerves</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro4%20dementia.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro4_dementia_pdf" onclick="toggleRead(this, 'neuro4_dementia_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro4 Dementia</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro5%20infection.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro5_infection_pdf" onclick="toggleRead(this, 'neuro5_infection_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro5 Infection</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro6%20epilepsy.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro6_epilepsy_pdf" onclick="toggleRead(this, 'neuro6_epilepsy_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro6 Epilepsy</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro7%20collection.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro7_collection_pdf" onclick="toggleRead(this, 'neuro7_collection_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro7 Collection</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro8%20tumors.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro8_tumors_pdf" onclick="toggleRead(this, 'neuro8_tumors_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro8 Tumors</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=neuro9%20congenital.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="neuro9_congenital_pdf" onclick="toggleRead(this, 'neuro9_congenital_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Neuro9 Congenital</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            </div></div>
+        <div class="subject-group">
+            <div class="subject-header" onclick="toggleSection(this)">
+                <span>🤰 Obstetrics & Gynaecology</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="resource-grid">
+        
+                <a href="viewer.html?file=UW%202%20-%20Gynecology%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Gynecology_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Gynecology_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Gynecology - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            
+                <a href="viewer.html?file=UW%202%20-%20Obstetrics%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Obstetrics_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Obstetrics_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Obstetrics - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            </div></div>
+        <div class="subject-group">
+            <div class="subject-header" onclick="toggleSection(this)">
+                <span>👶 Pediatrics</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="resource-grid">
+        
+                <a href="viewer.html?file=UW%202%20-%20Pediatrics%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Pediatrics_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Pediatrics_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Pediatrics - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            </div></div>
+        <div class="subject-group">
+            <div class="subject-header" onclick="toggleSection(this)">
+                <span>✂️ Surgery</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="resource-grid">
+        
+                <a href="viewer.html?file=UW%202%20-%20Surgery%20-%20Tables%20and%20Images.pdf" class="resource-card"  >
+                    <div class="check-circle" data-id="UW_2_-_Surgery_-_Tables_and_Images_pdf" onclick="toggleRead(this, 'UW_2_-_Surgery_-_Tables_and_Images_pdf', event)"></div>
+                    <div class="card-info">
+                        <div class="card-title">Uw 2 - Surgery - Tables And Images</div>
+                        <div class="card-desc">Open Note</div>
+                    </div>
+                </a>
+            </div></div>
+</div>
+
+<script>
+    if(localStorage.getItem('medtrix-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+    function toggleSection(header) {
+        header.classList.toggle('collapsed');
+    }
+
+    function toggleRead(btn, id, e) {
+        e.preventDefault(); e.stopPropagation();
+        btn.classList.toggle('checked');
+        if(btn.classList.contains('checked')) localStorage.setItem('read_'+id, 'true');
+        else localStorage.removeItem('read_'+id);
+    }
+
+    window.addEventListener('load', () => {
+        document.querySelectorAll('.check-circle').forEach(btn => {
+            if(localStorage.getItem('read_'+btn.getAttribute('data-id')) === 'true') btn.classList.add('checked');
+        });
+    });
+
+    function filterContent() {
+        let term = document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('.subject-group').forEach(group => {
+            let hasMatch = false;
+            group.querySelectorAll('.resource-card').forEach(card => {
+                let text = card.innerText.toLowerCase();
+                if(text.includes(term)) { card.style.display = 'flex'; hasMatch = true; }
+                else card.style.display = 'none';
+            });
+            group.style.display = hasMatch ? 'block' : 'none';
+            if(term.length > 0 && hasMatch) group.querySelector('.subject-header').classList.remove('collapsed');
+        });
+    }
+
+    // ANALYTICS ENGINE
+    function openStats() {
+        document.getElementById('statsModal').style.display = 'flex';
+        calculateStats();
+    }
+
+    function closeStats() {
+        document.getElementById('statsModal').style.display = 'none';
+    }
+
+    function calculateStats() {
+        const groups = document.querySelectorAll('.subject-group');
+        let totalFiles = 0;
+        let totalRead = 0;
+        let html = '';
+
+        groups.forEach(group => {
+            const title = group.querySelector('.subject-title').innerText.split('(')[0];
+            const cards = group.querySelectorAll('.resource-card');
+            const count = cards.length;
+            let read = 0;
+
+            cards.forEach(card => {
+                if(card.querySelector('.check-circle').classList.contains('checked')) {
+                    read++;
+                }
+            });
+
+            totalFiles += count;
+            totalRead += read;
+            const percent = Math.round((read / count) * 100);
+            
+            // Only show if there are files
+            if(count > 0) {
+                html += `
+                <div class="stat-row">
+                    <div class="stat-label">
+                        <span>${title}</span>
+                        <span>${read}/${count} (${percent}%)</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: ${percent}%"></div>
+                    </div>
+                </div>`;
+            }
+        });
+
+        // Update UI
+        document.getElementById('statsRows').innerHTML = html;
+        const totalPercent = totalFiles > 0 ? Math.round((totalRead / totalFiles) * 100) : 0;
+        document.getElementById('totalProgress').innerHTML = `Total Completion: ${totalPercent}%`;
+    }
+
+    // Close modal on outside click
+    document.getElementById('statsModal').addEventListener('click', function(e) {
+        if (e.target === this) closeStats();
+    });
+
+</script>
+
+<div id="statsModal">
+    <div class="stats-content">
+        <div class="close-stats" onclick="closeStats()">✕</div>
+        <div class="stats-header">📊 Study Report</div>
+        
+        <div class="total-score" id="totalProgress">Loading...</div>
+        <div id="statsRows"></div>
+        
+        <div style="text-align:center; margin-top:20px; font-size:0.8rem; opacity:0.6">
+            *Progress is saved on this device.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
