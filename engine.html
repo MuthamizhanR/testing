@@ -193,7 +193,7 @@
 
         loadManifest();
     });
-    
+
     // --- DATA LOADING ---
     async function loadManifest() {
         try {
@@ -208,6 +208,7 @@
     function renderIndex(list) {
         const container = document.getElementById('index-container');
         container.innerHTML = "";
+        
         const groups = list.reduce((acc, item) => {
             const cat = item.category || "Other";
             if(!acc[cat]) acc[cat] = [];
@@ -223,8 +224,10 @@
                 </li>
             `).join('');
 
+            // CHANGE IS HERE: We removed "${idx === 0 ? 'open' : ''}"
+            // Now it is just class="category-group" (Closed by default)
             container.innerHTML += `
-                <div class="category-group ${idx === 0 ? 'open' : ''}">
+                <div class="category-group">
                     <div class="group-header" onclick="this.parentElement.classList.toggle('open')">
                         ${cat} <span class="group-count">${groups[cat].length}</span>
                     </div>
@@ -233,7 +236,7 @@
             `;
         });
     }
-
+    
     function filterIndex() {
         const term = document.getElementById('search').value.toLowerCase();
         if(!term) { renderIndex(manifest); return; }
