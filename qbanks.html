@@ -2,525 +2,512 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MEDTRIX Engine</title>
+    <!-- HLS Support for streaming videos -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         :root {
-            --primary: #0f766e; /* Teal-700 */
-            --primary-light: #f0fdfa;
-            --text-main: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --bg-app: #f8fafc;
-            --bg-panel: #ffffff;
-            --correct: #dcfce7;
-            --correct-border: #22c55e;
-            --wrong: #fee2e2;
-            --wrong-border: #ef4444;
+            --bg-app: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --accent: #2563eb;
+            --accent-soft: #dbeafe;
+            --border: #e5e7eb;
+            --success: #059669;
+            --success-bg: #d1fae5;
+            --error: #dc2626;
+            --error-bg: #fee2e2;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        * { box-sizing: border-box; }
+        .dark {
+            --bg-app: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --accent-soft: #1e3a8a;
+            --border: #334155;
+            --success: #34d399;
+            --success-bg: #064e3b;
+            --error: #f87171;
+            --error-bg: #7f1d1d;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-app);
-            color: var(--text-main);
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--bg-app);
+            color: var(--text-primary);
             margin: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            transition: background 0.3s;
         }
 
-        /* --- Header --- */
+        /* --- NAVIGATION BAR --- */
         header {
-            background: var(--bg-panel);
+            height: 64px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border);
-            padding: 0 1.5rem;
-            height: 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 20px;
             flex-shrink: 0;
+            z-index: 50;
         }
-        .brand { font-weight: 700; font-size: 1.2rem; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .brand span { color: var(--text-light); font-size: 0.9rem; font-weight: 400; }
-
-        /* --- Layout --- */
-        .app-layout {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        /* --- Sidebar --- */
-        aside {
-            width: 320px;
-            background: var(--bg-panel);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-        .search-wrapper { padding: 1rem; border-bottom: 1px solid var(--border); }
-        .search-wrapper input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.95rem;
-            outline: none;
-        }
-        .search-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+        .brand { font-size: 1.2rem; font-weight: 800; color: var(--accent); cursor: pointer; }
+        .brand span { color: var(--text-secondary); font-weight: 400; font-size: 0.9rem; }
         
-        #test-list { overflow-y: auto; flex: 1; }
-        .test-item {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
+        .header-controls { display: flex; gap: 10px; }
+        .icon-btn {
+            background: transparent; border: none; cursor: pointer;
+            padding: 8px; border-radius: 50%; color: var(--text-primary);
+            display: flex; align-items: center; justify-content: center;
             transition: background 0.2s;
         }
-        .test-item:hover { background: var(--bg-app); }
-        .test-item.active { background: var(--primary-light); border-left: 4px solid var(--primary); }
-        .test-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
-        .test-meta { font-size: 0.8rem; color: var(--text-light); }
+        .icon-btn:hover { background: var(--border); }
 
-        /* --- Main Content --- */
-        main {
+        /* --- DASHBOARD (INDEX) VIEW --- */
+        #view-dashboard {
             flex: 1;
             overflow-y: auto;
-            padding: 2rem;
-            position: relative;
+            padding: 20px;
+        }
+        
+        .search-container {
+            max-width: 600px; margin: 0 auto 30px auto;
+        }
+        .search-input {
+            width: 100%; padding: 16px 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-primary);
+            font-size: 1rem; outline: none;
+            box-shadow: var(--shadow);
+        }
+        .search-input:focus { border-color: var(--accent); }
+
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        #welcome-state {
+        .test-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: var(--text-light);
-            text-align: center;
-        }
-
-        /* --- Question Card --- */
-        .q-container { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
-        
-        .q-header {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
         }
-        .q-meta-tag {
-            background: var(--text-main);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 0.85rem;
-            font-weight: 600;
+        .test-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--accent); }
+        .test-title { font-weight: 600; margin-bottom: 10px; font-size: 1.05rem; }
+        .test-info { color: var(--text-secondary); font-size: 0.85rem; display: flex; justify-content: space-between; }
+        .start-badge { 
+            background: var(--accent-soft); color: var(--accent); 
+            padding: 4px 12px; border-radius: 99px; font-weight: 600; font-size: 0.8rem;
         }
 
-        /* Question Toolbar (ID, Copy Link) */
-        .q-toolbar {
-            display: flex;
-            gap: 10px;
+        /* --- QUIZ VIEW --- */
+        #view-quiz {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-app);
+            display: flex; flex-direction: column;
+            z-index: 100;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
         }
-        .tool-btn {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            color: var(--text-light);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-        .tool-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .id-badge { font-family: monospace; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+        #view-quiz.active { transform: translateX(0); }
 
-        .q-text { font-size: 1.25rem; font-weight: 600; line-height: 1.6; margin-bottom: 1.5rem; color: #0f172a; }
+        /* Quiz Header */
+        .quiz-header {
+            height: 60px; background: var(--bg-card); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+        }
+        .back-btn { font-weight: 600; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 5px; background: none; border: none; font-size: 1rem;}
+        .back-btn:hover { color: var(--accent); }
         
-        .q-image { 
-            max-width: 100%; 
-            border-radius: 8px; 
-            border: 1px solid var(--border); 
-            margin-bottom: 1.5rem;
-            max-height: 400px;
-            object-fit: contain;
-            background: #000;
+        /* Quiz Content */
+        .quiz-content {
+            flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 100px; /* Space for footer */
+        }
+        .question-card {
+            max-width: 800px; margin: 0 auto;
+            background: var(--bg-card); padding: 24px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
         }
 
-        .options-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+        .q-meta-row { display: flex; justify-content: space-between; margin-bottom: 16px; }
+        .q-counter { font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 4px 12px; border-radius: 10px; font-size: 0.9rem; }
+        .copy-id-btn { background: var(--bg-app); border: none; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; color: var(--text-secondary); }
+
+        .q-text { font-size: 1.2rem; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
         
+        /* Media */
+        .media-container { margin-bottom: 20px; text-align: center; }
+        .q-img { max-width: 100%; max-height: 350px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-top: 10px; }
+        .q-video { width: 100%; max-width: 600px; border-radius: var(--radius-md); margin-top: 10px; background: #000; }
+        .q-audio { width: 100%; margin-top: 10px; }
+
+        /* Options */
+        .options-list { display: flex; flex-direction: column; gap: 12px; }
         .opt-btn {
-            text-align: left;
-            padding: 16px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            color: var(--text-main);
+            width: 100%; text-align: left; padding: 16px;
+            background: var(--bg-card); border: 2px solid var(--border);
+            border-radius: var(--radius-md); font-size: 1rem; color: var(--text-primary);
+            cursor: pointer; transition: all 0.2s; display: flex; gap: 12px;
         }
-        .opt-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
-        .opt-marker { 
-            flex-shrink: 0; width: 24px; height: 24px; 
-            border: 1px solid var(--border); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; font-weight: bold; color: var(--text-light);
+        .opt-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+        .opt-char {
+            width: 28px; height: 28px; border-radius: 50%; background: var(--bg-app);
+            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; flex-shrink: 0;
         }
-
-        /* States */
-        .opt-btn.correct { background-color: var(--correct); border-color: var(--correct-border); }
-        .opt-btn.correct .opt-marker { background: var(--correct-border); border-color: var(--correct-border); color: white; }
         
-        .opt-btn.wrong { background-color: var(--wrong); border-color: var(--wrong-border); }
-        .opt-btn.wrong .opt-marker { background: var(--wrong-border); border-color: var(--wrong-border); color: white; }
+        /* Answer States */
+        .opt-btn.correct { border-color: var(--success); background: var(--success-bg); }
+        .opt-btn.correct .opt-char { background: var(--success); color: white; }
+        .opt-btn.wrong { border-color: var(--error); background: var(--error-bg); }
+        .opt-btn.wrong .opt-char { background: var(--error); color: white; }
 
         /* Explanation */
-        .explanation {
-            margin-top: 2rem;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            animation: fadeIn 0.3s ease;
+        .exp-box {
+            margin-top: 24px; background: var(--bg-app); border-radius: var(--radius-md); overflow: hidden; display: none; border: 1px solid var(--border);
         }
-        .exp-header {
-            background: #f8fafc;
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--border);
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.9rem;
-        }
-        .exp-body { padding: 20px; font-size: 0.95rem; line-height: 1.6; color: var(--text-main); }
-        .exp-body img { max-width: 100%; margin-top: 10px; border-radius: 4px; }
+        .exp-box.show { display: block; animation: fadeUp 0.3s ease; }
+        .exp-head { background: var(--accent-soft); color: var(--accent); padding: 10px 20px; font-weight: bold; font-size: 0.9rem; }
+        .exp-body { padding: 20px; line-height: 1.6; font-size: 0.95rem; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: 0; } }
 
         /* Footer Nav */
-        .footer-nav {
-            position: fixed;
-            bottom: 0;
-            left: 320px; /* Sidebar width */
-            right: 0;
-            padding: 1rem 2rem;
-            background: white;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
+        .quiz-footer {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 70px; background: var(--bg-card); border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; z-index: 101;
         }
-
-        /* Toast Notification */
-        #toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #1e293b;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 100;
+        .nav-btn {
+            width: 48%; height: 48px; border-radius: var(--radius-md); border: none;
+            font-weight: 600; font-size: 1rem; cursor: pointer;
         }
+        .btn-prev { background: var(--bg-app); color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-next { background: var(--accent); color: white; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .btn-next:active { transform: scale(0.98); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .app-layout { flex-direction: column; }
-            aside { width: 100%; height: 35vh; border-right: none; border-bottom: 1px solid var(--border); }
-            main { height: 65vh; padding: 1rem; }
-            .footer-nav { left: 0; padding: 1rem; }
-            .q-container { padding-bottom: 80px; }
+        /* Toast */
+        #toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-50px);
+            background: #1f2937; color: white; padding: 8px 20px; border-radius: 99px;
+            font-size: 0.9rem; z-index: 200; transition: 0.3s; opacity: 0;
         }
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
     </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
-    <a href="index.html" class="brand">
-        &larr; <span>Home</span> MEDTRIX Engine
-    </a>
-    <div id="current-test-title" style="font-weight: 600; font-size: 0.9rem;"></div>
+    <div class="brand" onclick="goHome()">MEDTRIX <span>Engine</span></div>
+    <div class="header-controls">
+        <button class="icon-btn" onclick="toggleTheme()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>
+        </button>
+    </div>
 </header>
 
-<div class="app-layout">
-    <!-- Sidebar -->
-    <aside>
-        <div class="search-wrapper">
-            <input type="text" id="search-input" placeholder="Filter tests..." onkeyup="filterTests()">
-        </div>
-        <div id="test-list">
-            <!-- Test items populated here -->
-        </div>
-    </aside>
+<!-- VIEW 1: DASHBOARD -->
+<div id="view-dashboard">
+    <div class="search-container">
+        <input type="text" id="search" class="search-input" placeholder="Search for a test topic..." onkeyup="filterTests()">
+    </div>
+    <div id="test-grid" class="tests-grid">
+        <!-- Test Cards injected here -->
+    </div>
+</div>
 
-    <!-- Main Content -->
-    <main>
-        <div id="welcome-state">
-            <h2 style="font-size: 2rem; margin-bottom: 1rem;">Ready to practice?</h2>
-            <p>Select a test from the sidebar or paste a shared link.</p>
-        </div>
+<!-- VIEW 2: QUIZ PLAYER -->
+<div id="view-quiz">
+    <div class="quiz-header">
+        <button class="back-btn" onclick="goHome()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Index
+        </button>
+        <div id="quiz-title-display" style="font-weight:600; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+    </div>
 
-        <div id="quiz-view" class="q-container hidden">
-            <!-- Header with ID and Tools -->
-            <div class="q-header">
-                <div class="q-meta-tag" id="q-counter">1 / 10</div>
-                <div class="q-toolbar">
-                    <button class="tool-btn" onclick="copyDeepLink()">
-                        <span>🔗 Copy Link</span>
-                    </button>
-                    <div class="tool-btn" style="cursor: default;">
-                        ID: <span id="q-uid" class="id-badge">...</span>
-                    </div>
-                </div>
+    <div class="quiz-content">
+        <div class="question-card">
+            <div class="q-meta-row">
+                <span class="q-counter" id="q-counter">Q 1 / 10</span>
+                <button class="copy-id-btn" onclick="copyDeepLink()">#<span id="q-id">ID</span> 🔗</button>
             </div>
+            
+            <!-- Question Text -->
+            <div class="q-text" id="q-text"></div>
 
-            <!-- Question Body -->
-            <div id="q-text" class="q-text"></div>
-            <div id="q-images-container"></div>
+            <!-- Multimedia Area -->
+            <div class="media-container" id="media-area"></div>
 
             <!-- Options -->
-            <div id="options-container" class="options-grid"></div>
+            <div class="options-list" id="options-area"></div>
 
             <!-- Explanation -->
-            <div id="explanation-container" class="explanation hidden">
-                <div class="exp-header">💡 Explanation & Solution</div>
-                <div id="exp-content" class="exp-body"></div>
+            <div class="exp-box" id="exp-box">
+                <div class="exp-head">Explanation</div>
+                <div class="exp-body" id="exp-text"></div>
+                <div class="media-container" id="exp-media"></div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <div class="quiz-footer">
+        <button class="nav-btn btn-prev" id="btn-prev" onclick="changeQuestion(-1)">Previous</button>
+        <button class="nav-btn btn-next" id="btn-next" onclick="changeQuestion(1)">Next</button>
+    </div>
 </div>
 
-<!-- Footer Navigation -->
-<div id="footer-nav" class="footer-nav hidden">
-    <button onclick="changeQuestion(-1)" id="btn-prev" class="tool-btn" style="padding: 10px 24px;">Previous</button>
-    <button onclick="changeQuestion(1)" id="btn-next" style="padding: 10px 24px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Next</button>
-</div>
-
-<!-- Toast -->
-<div id="toast">Link copied to clipboard!</div>
+<div id="toast">Link Copied!</div>
 
 <script>
-    // --- State ---
+    // --- STATE ---
     let manifest = [];
-    let currentTest = null; // The JSON object of the test
-    let currentTestFile = ""; // Filename
-    let currentQIndex = 0;
+    let currentTest = null;
+    let currentIndex = 0;
+    let currentFile = "";
 
-    // --- Initialization ---
-    window.addEventListener('DOMContentLoaded', async () => {
-        await loadManifest();
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTheme();
+        loadManifest();
         checkForDeepLink();
     });
 
-    // --- 1. Load Data ---
+    // --- DATA HANDLING ---
     async function loadManifest() {
         try {
             const res = await fetch('manifest.json');
             manifest = await res.json();
-            renderTestList(manifest);
+            renderDashboard(manifest);
         } catch (e) {
-            console.error("Manifest Error:", e);
-            document.getElementById('test-list').innerHTML = `<div style="padding:20px; color:red;">Error loading manifest.json. Run python script.</div>`;
+            document.getElementById('test-grid').innerHTML = `<div style="color:red; text-align:center;">Error: Run serialize_quizzes.py first.</div>`;
         }
     }
 
-    function renderTestList(items) {
-        const list = document.getElementById('test-list');
-        list.innerHTML = items.map(t => `
-            <div class="test-item" onclick="startTest('${t.file}')" data-file="${t.file}">
-                <div class="test-title">${t.title}</div>
-                <div class="test-meta">${t.questions} Questions</div>
+    function renderDashboard(list) {
+        const grid = document.getElementById('test-grid');
+        grid.innerHTML = list.map(t => `
+            <div class="test-card" onclick="openQuiz('${t.file}')">
+                <div>
+                    <div class="test-title">${t.title}</div>
+                    <div class="test-info">
+                        <span>${t.questions} Questions</span>
+                        <span class="start-badge">Start</span>
+                    </div>
+                </div>
             </div>
         `).join('');
     }
 
     function filterTests() {
-        const term = document.getElementById('search-input').value.toLowerCase();
-        const filtered = manifest.filter(t => t.title.toLowerCase().includes(term));
-        renderTestList(filtered);
+        const term = document.getElementById('search').value.toLowerCase();
+        renderDashboard(manifest.filter(t => t.title.toLowerCase().includes(term)));
     }
 
-    // --- 2. Core Logic ---
-
-    // Check URL for ?test=filename.json&q=uid
+    // --- QUIZ LOGIC ---
     function checkForDeepLink() {
         const params = new URLSearchParams(window.location.search);
         const file = params.get('test');
-        const qUid = params.get('q');
+        const qid = params.get('q');
+        if(file) openQuiz(file, qid);
+    }
 
-        if (file) {
-            startTest(file, qUid);
+    async function openQuiz(filename, targetQid = null) {
+        try {
+            const res = await fetch(`quiz_data/${filename}`);
+            currentTest = await res.json();
+            currentFile = filename;
+            
+            document.getElementById('quiz-title-display').textContent = currentTest.meta ? currentTest.meta.title : currentTest.title;
+            
+            // Navigation
+            currentIndex = 0;
+            if(targetQid) {
+                const idx = currentTest.questions.findIndex(q => q.uid === targetQid);
+                if(idx !== -1) currentIndex = idx;
+            }
+
+            // Switch Views
+            document.getElementById('view-quiz').classList.add('active');
+            renderQuestion();
+            
+            // Update URL
+            const url = new URL(window.location);
+            url.searchParams.set('test', filename);
+            window.history.replaceState({}, '', url);
+
+        } catch(e) {
+            console.error(e);
+            showToast("Error loading test data");
         }
     }
 
-    async function startTest(filename, targetUid = null) {
-        // Reset UI
-        document.getElementById('welcome-state').classList.add('hidden');
-        document.getElementById('quiz-view').classList.remove('hidden');
-        document.getElementById('footer-nav').classList.remove('hidden');
-        
-        // Update active sidebar state
-        document.querySelectorAll('.test-item').forEach(el => el.classList.remove('active'));
-        const activeItem = document.querySelector(`.test-item[data-file="${filename}"]`);
-        if (activeItem) activeItem.classList.add('active');
-
-        currentTestFile = filename;
-
-        try {
-            const res = await fetch(`quiz_data/${filename}`);
-            const data = await res.json();
-            currentTest = data;
-
-            // Set Title
-            document.getElementById('current-test-title').textContent = data.meta ? data.meta.title : data.title;
-
-            // Determine starting index
-            currentQIndex = 0;
-            if (targetUid) {
-                const foundIndex = currentTest.questions.findIndex(q => q.uid === targetUid);
-                if (foundIndex !== -1) currentQIndex = foundIndex;
-            }
-
-            renderQuestion();
-
-            // Update URL without reloading (for simple refresh consistency)
-            updateUrlParam('test', filename);
-        } catch (e) {
-            alert("Error loading test file.");
-            console.error(e);
-        }
+    function goHome() {
+        document.getElementById('view-quiz').classList.remove('active');
+        const url = new URL(window.location);
+        url.searchParams.delete('test');
+        url.searchParams.delete('q');
+        window.history.replaceState({}, '', url);
     }
 
     function renderQuestion() {
-        const q = currentTest.questions[currentQIndex];
+        const q = currentTest.questions[currentIndex];
         
-        // 1. Update Headers
-        document.getElementById('q-counter').textContent = `${currentQIndex + 1} / ${currentTest.questions.length}`;
-        document.getElementById('q-uid').textContent = q.uid || 'N/A';
-        updateUrlParam('q', q.uid); // Sync URL with current question
-
-        // 2. Text
+        // 1. Basics
+        document.getElementById('q-counter').textContent = `Q ${currentIndex + 1} / ${currentTest.questions.length}`;
+        document.getElementById('q-id').textContent = q.uid;
         document.getElementById('q-text').innerHTML = q.text;
 
-        // 3. Images
-        const imgContainer = document.getElementById('q-images-container');
-        imgContainer.innerHTML = '';
-        if (q.question_images && q.question_images.length) {
+        // 2. Deep Link Sync
+        const url = new URL(window.location);
+        url.searchParams.set('q', q.uid);
+        window.history.replaceState({}, '', url);
+
+        // 3. Multimedia Handling (Video/Audio/Images)
+        const mediaDiv = document.getElementById('media-area');
+        mediaDiv.innerHTML = '';
+
+        // Images
+        if (q.question_images && q.question_images.length > 0) {
             q.question_images.forEach(src => {
-                imgContainer.innerHTML += `<img src="${src}" class="q-image">`;
+                mediaDiv.innerHTML += `<img src="${src}" class="q-img" alt="Question Image">`;
             });
         }
 
+        // Video (MP4 or HLS)
+        if (q.video && q.video.trim() !== "") {
+            const vidId = `vid-${currentIndex}`;
+            mediaDiv.innerHTML += `<video id="${vidId}" controls class="q-video"></video>`;
+            
+            setTimeout(() => {
+                const videoElement = document.getElementById(vidId);
+                if (q.video.endsWith('.m3u8') && Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(q.video);
+                    hls.attachMedia(videoElement);
+                } else {
+                    videoElement.src = q.video;
+                }
+            }, 0);
+        }
+
+        // Audio
+        if (q.audio && q.audio.trim() !== "") {
+            mediaDiv.innerHTML += `<audio controls src="${q.audio}" class="q-audio"></audio>`;
+        }
+
         // 4. Options
-        const optContainer = document.getElementById('options-container');
-        optContainer.innerHTML = q.options.map((opt, idx) => `
-            <button class="opt-btn" onclick="handleAnswer(this, ${opt.correct})">
-                <div class="opt-marker">${String.fromCharCode(65 + idx)}</div>
+        const optsDiv = document.getElementById('options-area');
+        optsDiv.innerHTML = q.options.map((opt, i) => `
+            <button class="opt-btn" onclick="checkAnswer(this, ${opt.correct})">
+                <div class="opt-char">${String.fromCharCode(65+i)}</div>
                 <div>${opt.text}</div>
             </button>
         `).join('');
 
-        // 5. Explanation (Hidden)
-        const expContainer = document.getElementById('explanation-container');
-        expContainer.classList.add('hidden');
+        // 5. Explanation (Reset)
+        document.getElementById('exp-box').classList.remove('show');
+        let expContent = q.explanation || "No explanation provided.";
+        document.getElementById('exp-text').innerHTML = expContent;
         
-        let expHtml = q.explanation || "No explanation provided.";
-        // Add explanation images if any
-        if (q.explanation_images && q.explanation_images.length) {
+        // Explanation Images
+        const expMedia = document.getElementById('exp-media');
+        expMedia.innerHTML = '';
+        if(q.explanation_images && q.explanation_images.length > 0) {
             q.explanation_images.forEach(src => {
-                expHtml += `<br><img src="${src}">`;
+                expMedia.innerHTML += `<img src="${src}" class="q-img">`;
             });
         }
-        document.getElementById('exp-content').innerHTML = expHtml;
 
-        // 6. Nav Buttons
-        document.getElementById('btn-prev').disabled = (currentQIndex === 0);
-        document.getElementById('btn-next').textContent = (currentQIndex === currentTest.questions.length - 1) ? 'Finish' : 'Next';
+        // 6. Buttons
+        document.getElementById('btn-prev').disabled = (currentIndex === 0);
+        document.getElementById('btn-next').textContent = (currentIndex === currentTest.questions.length - 1) ? 'Finish' : 'Next';
     }
 
-    function handleAnswer(btn, isCorrect) {
-        // Disable clicks
-        const allBtns = document.querySelectorAll('.opt-btn');
-        allBtns.forEach(b => b.disabled = true);
+    function checkAnswer(btn, isCorrect) {
+        // Lock buttons
+        const btns = document.querySelectorAll('.opt-btn');
+        btns.forEach(b => b.disabled = true);
 
-        if (isCorrect) {
+        if(isCorrect) {
             btn.classList.add('correct');
         } else {
             btn.classList.add('wrong');
-            // Optionally highlight the correct one
-            // In this dataset, 'correct' is boolean in the option object
+            // Optional: Auto-highlight correct answer logic can go here
         }
-
-        document.getElementById('explanation-container').classList.remove('hidden');
         
-        // Scroll explanation into view smoothly on mobile
+        // Show Explanation
+        document.getElementById('exp-box').classList.add('show');
+        
+        // Scroll to explanation on mobile
         if(window.innerWidth < 768) {
             setTimeout(() => {
-                document.getElementById('explanation-container').scrollIntoView({behavior: 'smooth'});
+                document.getElementById('exp-box').scrollIntoView({behavior: 'smooth'});
             }, 200);
         }
     }
 
-    function changeQuestion(delta) {
-        const newIndex = currentQIndex + delta;
-        if (newIndex >= 0 && newIndex < currentTest.questions.length) {
-            currentQIndex = newIndex;
+    function changeQuestion(dir) {
+        const next = currentIndex + dir;
+        if(next >= 0 && next < currentTest.questions.length) {
+            currentIndex = next;
             renderQuestion();
-            // Scroll to top
-            document.querySelector('main').scrollTop = 0;
-        } else if (newIndex >= currentTest.questions.length) {
-            // Finished
-            document.getElementById('welcome-state').classList.remove('hidden');
-            document.getElementById('welcome-state').innerHTML = `<h2>Test Complete!</h2><p>Select another test to continue.</p>`;
-            document.getElementById('quiz-view').classList.add('hidden');
-            document.getElementById('footer-nav').classList.add('hidden');
-            history.pushState(null, '', window.location.pathname); // Clear URL
+            document.querySelector('.quiz-content').scrollTop = 0;
+        } else if (next >= currentTest.questions.length) {
+            goHome();
         }
     }
 
-    // --- 3. Utilities ---
+    // --- UTILS ---
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
 
-    function updateUrlParam(key, value) {
-        const url = new URL(window.location);
-        if (value) {
-            url.searchParams.set(key, value);
-        } else {
-            url.searchParams.delete(key);
-        }
-        window.history.replaceState({}, '', url);
+    function loadTheme() {
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
     }
 
     function copyDeepLink() {
-        const url = window.location.href;
-        navigator.clipboard.writeText(url).then(() => {
-            showToast("Link copied to clipboard!");
-        });
+        navigator.clipboard.writeText(window.location.href);
+        showToast("Link Copied!");
     }
 
     function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.textContent = msg;
-        toast.style.opacity = '1';
-        setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2000);
     }
-
 </script>
+
 </body>
 </html>
