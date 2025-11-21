@@ -208,12 +208,12 @@
     // --- STATE ---
     let manifest = [];
     let questionBank = [];
-    let userAnswers = {}; // Map: uid -> optionIndex
+    let userAnswers = {}; 
     let curIdx = 0;
     let isMockMode = false;
     let isReviewMode = false;
     let timerInterval;
-    let timeRemaining = 10800; // 3 hours in seconds
+    let timeRemaining = 10800; // 3 hours
 
     // --- INIT ---
     document.addEventListener('DOMContentLoaded', () => {
@@ -269,7 +269,7 @@
         document.querySelectorAll('.category-group').forEach(g => g.classList.add('open'));
     }
 
-    // --- CORE ENGINE: PRACTICE MODE ---
+    // --- PRACTICE MODE ---
     async function openPracticeTest(filename) {
         showLoader(true, "Loading Test...");
         try {
@@ -279,14 +279,13 @@
             const res = await fetch(`quiz_data/${filename}`);
             const data = await res.json();
             questionBank = data.questions;
-            
             startSession(data.title);
         } catch(e) {
             alert("Error loading file");
         } finally { showLoader(false); }
     }
 
-    // --- CORE ENGINE: GRAND MOCK GENERATOR ---
+    // --- GRAND MOCK GENERATOR (FIXED: ENSURES 200 Qs) ---
     async function generateMockTest() {
         showLoader(true, "Gathering 200 Questions...");
         isMockMode = true;
@@ -295,48 +294,73 @@
         let finalQs = [];
         
         try {
-            // 1. Helper to fetch file
             const fetchFile = async (f) => {
                 try { const r = await fetch(`quiz_data/${f}`); return await r.json(); } 
                 catch(e) { return null; }
             };
 
-            // 2. Iterate plan and fetch randomly
-            // We don't fetch ALL files. We pick 3-4 random files per subject to save bandwidth.
+            // 1. TARGETED FETCHING (Based on Plan)
             for(let [subj, count] of Object.entries(MOCK_PLAN)) {
-                // Find files matching subject
+                // Match subject loosely (case insensitive)
                 const candidates = manifest.filter(m => 
-                    (m.category && m.category.includes(subj)) || 
+                    (m.category && m.category.toLowerCase().includes(subj.toLowerCase())) || 
                     m.title.toLowerCase().includes(subj.toLowerCase())
                 );
 
                 if(candidates.length === 0) continue;
 
-                // Shuffle and pick top 5 files to fetch
+                // INCREASED LOAD: Fetch up to 20 files per subject to ensure we have enough questions
                 candidates.sort(() => 0.5 - Math.random());
-                const filesToFetch = candidates.slice(0, 5); 
+                const filesToFetch = candidates.slice(0, 20); 
 
-                let subjectQs = [];
                 const promises = filesToFetch.map(c => fetchFile(c.file));
                 const results = await Promise.all(promises);
 
+                let subjectQs = [];
                 results.forEach(data => {
                     if(data && data.questions) subjectQs.push(...data.questions);
                 });
 
-                // Shuffle questions and take needed amount
+                // Deduplicate by UID just in case
+                subjectQs = subjectQs.filter((q, index, self) =>
+                    index === self.findIndex((t) => (t.uid === q.uid))
+                );
+
+                // Shuffle and take exactly what we need
                 subjectQs.sort(() => 0.5 - Math.random());
                 finalQs.push(...subjectQs.slice(0, count));
             }
 
-            // 3. Fill remaining if < 200 (using random others)
+            // 2. BACKFILL MECHANISM (The Fix)
+            // If we are short of 200 (e.g., only got 172), fill the rest from ANY random file
             if(finalQs.length < 200) {
-                const remaining = 200 - finalQs.length;
-                // Simplified fill logic: just grab from existing pool or alert
-                console.log(`Short by ${remaining} qs. Proceeding with ${finalQs.length}.`);
+                const needed = 200 - finalQs.length;
+                console.log(`Short by ${needed} Qs. Engaging Backfill...`);
+                
+                // Grab 50 random files from entire manifest
+                const spareFiles = manifest.sort(() => 0.5 - Math.random()).slice(0, 50);
+                const sparePromises = spareFiles.map(f => fetchFile(f.file));
+                const spareResults = await Promise.all(sparePromises);
+                
+                let sparePool = [];
+                spareResults.forEach(d => { if(d && d.questions) sparePool.push(...d.questions); });
+
+                // Filter out questions we ALREADY have in finalQs
+                const existingIds = new Set(finalQs.map(q => q.uid));
+                const uniqueSpares = sparePool.filter(q => !existingIds.has(q.uid));
+
+                // Add the needed amount
+                finalQs.push(...uniqueSpares.slice(0, needed));
             }
 
+            // Final Shuffle
             questionBank = finalQs.sort(() => 0.5 - Math.random());
+            
+            if(questionBank.length === 0) {
+                alert("Critial Error: No questions could be loaded. Check database.");
+                return;
+            }
+
             startSession("Grand Mock Exam");
 
         } catch(e) {
@@ -365,7 +389,6 @@
             submitBtn.style.display = 'none';
             nextBtn.textContent = "Next";
         }
-
         renderQuestion();
     }
 
@@ -376,12 +399,10 @@
         document.getElementById('q-id-disp').textContent = `#${q.uid || 'ID'}`;
         document.getElementById('q-text').innerHTML = q.text;
 
-        // Media
         const mediaDiv = document.getElementById('q-media');
         mediaDiv.innerHTML = '';
         if(q.question_images) q.question_images.forEach(s => mediaDiv.innerHTML += `<img src="${s}" class="q-img">`);
 
-        // Options
         const optsDiv = document.getElementById('q-options');
         const savedAns = userAnswers[q.uid]; 
 
@@ -390,48 +411,34 @@
             if(isMockMode && !isReviewMode) {
                 if(savedAns === i) cls += " selected";
             } else {
-                // Practice or Review Mode
                 if(opt.correct) cls += " correct";
                 if(savedAns === i && !opt.correct) cls += " wrong";
             }
-
-            const disabled = (isMockMode && !isReviewMode) ? '' : (savedAns !== undefined ? 'disabled' : '');
-            // In Review mode, everything disabled
-            const finalDisabled = isReviewMode ? 'disabled' : disabled;
-
+            const finalDisabled = isReviewMode ? 'disabled' : '';
             return `<button class="${cls}" onclick="handleAns(${i})" ${finalDisabled}>
                 <div style="font-weight:bold;">${String.fromCharCode(65+i)}</div>
                 <div>${opt.text}</div>
             </button>`;
         }).join('');
 
-        // Explanation
         const expDiv = document.getElementById('q-exp');
         const expText = document.getElementById('exp-text');
         document.getElementById('ai-result').style.display = 'none';
 
         if(!isMockMode || isReviewMode) {
-            // Show if answered in practice, or always in review
             if(savedAns !== undefined || isReviewMode) {
                 expDiv.classList.add('show');
                 expText.innerHTML = q.explanation || "No explanation.";
-            } else {
-                expDiv.classList.remove('show');
-            }
-        } else {
-            expDiv.classList.remove('show'); // Hide in mock
-        }
+            } else { expDiv.classList.remove('show'); }
+        } else { expDiv.classList.remove('show'); }
         
-        // Button States
-        if(!isMockMode && curIdx === questionBank.length-1) {
-            document.getElementById('btn-next').textContent = "Finish";
-        }
+        if(!isMockMode && curIdx === questionBank.length-1) document.getElementById('btn-next').textContent = "Finish";
     }
 
     function handleAns(idx) {
         const q = questionBank[curIdx];
         userAnswers[q.uid] = idx;
-        renderQuestion(); // Re-render to show colors or selection state
+        renderQuestion();
     }
 
     function move(dir) {
@@ -444,7 +451,6 @@
         }
     }
 
-    // --- MOCK SPECIFICS ---
     function startTimer() {
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
@@ -460,8 +466,7 @@
 
     function finishMock() {
         clearInterval(timerInterval);
-        isReviewMode = true; // Lock answers, reveal explanations
-        
+        isReviewMode = true; 
         let c = 0, w = 0, u = 0;
         questionBank.forEach(q => {
             const ans = userAnswers[q.uid];
@@ -469,20 +474,16 @@
             else if(q.options[ans].correct) c++;
             else w++;
         });
-
         document.getElementById('final-score').textContent = (c*4) - w;
         document.getElementById('res-c').textContent = c;
         document.getElementById('res-w').textContent = w;
         document.getElementById('res-u').textContent = u;
-        
         document.getElementById('result-modal').style.display = 'flex';
         document.getElementById('btn-submit').style.display = 'none';
-        renderQuestion(); // Show current q solution
+        renderQuestion();
     }
 
-    function closeResult() {
-        document.getElementById('result-modal').style.display = 'none';
-    }
+    function closeResult() { document.getElementById('result-modal').style.display = 'none'; }
 
     function confirmExit() {
         if(isMockMode && !isReviewMode) {
@@ -499,34 +500,56 @@
         if(text) document.getElementById('loading-text').textContent = text;
     }
 
-    // --- FIXED AI FUNCTION ---
+    // --- ROBUST AI FUNCTION (Supports 2.0 Experimental + 1.5 Fallback) ---
     async function askAI() {
         const q = questionBank[curIdx];
         const box = document.getElementById('ai-result');
         const btn = document.querySelector('.ai-btn');
         
         box.style.display = 'block';
-        box.innerHTML = "🤖 Analyzing...";
+        box.innerHTML = "⚡ Thinking... (Gemini 2.0 Flash)";
         btn.disabled = true;
 
         const key = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
-        const correctOpt = q.options.find(o => o.correct)?.text || "N/A";
-        
-        const prompt = `Question: ${q.text}\nCorrect: ${correctOpt}\nContext: ${document.getElementById('exp-text').innerText.substring(0,500)}\nExplain briefly.`;
+        const correctOpt = (q.options && q.options.find(o => o.correct)) ? q.options.find(o => o.correct).text : "N/A";
+        const contextText = document.getElementById('exp-text') ? document.getElementById('exp-text').innerText.substring(0,1000) : "No context";
 
-        try {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${key}`;
-            const res = await fetch(url, {
+        const prompt = `
+        You are a medical professor. Explain this NEET PG question.
+        Question: ${q.text}
+        Correct Answer: ${correctOpt}
+        Context: ${contextText}
+        Explain why the correct answer is right and why distractors are wrong.
+        `;
+
+        const callGemini = async (modelName) => {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
-            const data = await res.json();
+            const data = await response.json();
             if(data.error) throw new Error(data.error.message);
-            box.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
+            return data.candidates[0].content.parts[0].text;
+        };
+
+        try {
+            try {
+                // Try Experimental 2.0 first
+                const text = await callGemini("gemini-2.0-flash-exp");
+                box.innerHTML = marked.parse(text) + `<div style="text-align:right; font-size:0.7rem; opacity:0.6; margin-top:5px;">Gemini 2.0 Flash</div>`;
+            } catch (err) {
+                console.warn("2.0 Exp busy, trying 1.5...", err);
+                box.innerHTML = "⚠️ 2.0 Busy, switching to Stable 1.5...<br>";
+                // Fallback to Stable 1.5 Flash
+                const text = await callGemini("gemini-1.5-flash");
+                box.innerHTML += marked.parse(text);
+            }
         } catch(e) {
             box.innerHTML = `<span style="color:red">AI Error: ${e.message}</span>`;
-        } finally { btn.disabled = false; }
+        } finally {
+            btn.disabled = false;
+        }
     }
 
     function toggleTheme() {
