@@ -1,0 +1,3 @@
+[submodule "MEDTRIX"]
+	path = MEDTRIX
+	url = https://github.com/MuthamizhanR/MEDTRIX.git
